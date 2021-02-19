@@ -1,0 +1,29 @@
+{
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "lib",
+    "**/*.test.ts"
+  ],
+  "compilerOptions": {
+    "sourceMap": true,
+    "outDir": "lib",
+    "target": "es5",
+    "module": "esnext",
+    "lib": [ "esnext" ],
+    "strict": true,
+    "allowJs": true,
+    "declaration": true,
+    "declarationDir": "lib/types",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  }
+}
