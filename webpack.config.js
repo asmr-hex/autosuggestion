@@ -9,7 +9,7 @@ module.exports = [
   {
     name: 'umd bundle',
     entry: {
-      'auto-complete': './src/index.ts',
+      'autosuggestion': './src/index.ts',
     },
     resolve: {
       extensions: ['.ts', '.tsx', '.js'],
