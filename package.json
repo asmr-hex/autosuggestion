@@ -1,27 +1,50 @@
 {
   "name": "autosuggestion",
   "author": "asmr.hex",
-  "license": "ISC",
+  "license": "GPLV3",
   "version": "1.0.2",
   "description": "",
-  "keywords": [],
+  "keywords": [
+    "auto-suggest",
+    "auto suggest",
+    "autosuggest",
+    "auto-suggestion",
+    "auto suggestion",
+    "autosuggestion",
+    "auto-complete",
+    "auto complete",
+    "autocomplete",
+    "typeahead",
+    "prefix tree",
+    "phrase completion"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/asmr-hex/autosuggestion.git"
+  },
   "main": "dist/autosuggestion.umd.js",
   "browser": "dist/autosuggestion.umd.js",
   "module": "lib/index.js",
+  "typings": "lib/types/index.d.ts",
   "unpkg": "dist/autosuggestion.umd.js",
-  "types": "lib/types/index.d.ts",
   "scripts": {
     "build": "npm run build:lib && npm run build:dist",
     "build:lib": "rm -rf lib && npx tsc",
     "build:dist": "rm -rf dist && npx webpack",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx jest",
+    "test:watch": "npx jest --watch"
   },
   "files": [
     "dist",
     "lib",
-    "package.json"
+    "package.json",
+    "README.md"
   ],
   "devDependencies": {
+    "@types/jest": "^26.0.20",
+    "babel-jest": "^26.6.3",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.5.1",
     "ts-loader": "^8.0.17",
     "typescript": "^4.1.5",
     "webpack": "^5.22.0",
