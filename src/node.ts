@@ -1,13 +1,15 @@
 
 
 export class Node {
-    value: Value
     end: boolean
     next: NextNodes
 
-    constructor(value: Value) {
-        this.value = value
+    constructor(readonly value: Value) {
         this.end = false
-        this.next = { char: new Map(), word: new Map() }
+        this.next = {
+            char: new Map(),
+            word: null,
+            lookup: new Map()
+        }
     }
 }
