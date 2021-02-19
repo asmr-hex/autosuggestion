@@ -1,14 +1,14 @@
 {
-  "name": "auto-complete",
+  "name": "autosuggestion",
   "author": "asmr.hex",
   "license": "ISC",
   "version": "1.0.0",
   "description": "",
   "keywords": [],
-  "main": "dist/auto-complete.umd.js",
-  "browser": "dist/auto-complete.umd.js",
+  "main": "dist/autosuggestion.umd.js",
+  "browser": "dist/autosuggestion.umd.js",
   "module": "lib/index.js",
-  "unpkg": "dist/auto-complete.umd.js",
+  "unpkg": "dist/autosuggestion.umd.js",
   "types": "lib/types/index.d.ts",
   "scripts": {
     "build": "npm run build:lib && npm run build:dist",
@@ -17,6 +17,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "files": [
+    "dist",
     "lib",
     "package.json"
   ],
