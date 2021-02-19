@@ -38,7 +38,8 @@
     "dist",
     "lib",
     "package.json",
-    "README.md"
+    "README.md",
+    "LICENSE.txt"
   ],
   "devDependencies": {
     "@types/jest": "^26.0.20",
