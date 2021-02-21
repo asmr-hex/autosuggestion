@@ -8,13 +8,17 @@ interface Lookup {
 }
 
 interface CharMap {
-    [index: string]: Node
+    [index: string]: import('./node').Node
+}
+
+interface LookupMap {
+    [index: string]: import('./lookup').LookupNode
 }
 
 interface NextNodes {
     char: CharMap
     word: Trie | null
-    lookup: LookupNode
+    lookup: LookupMap
 }
 
 type Pattern = (string | Lookup)[]

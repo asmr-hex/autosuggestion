@@ -1,4 +1,5 @@
 import { Node } from './node'
+import { LookupNode } from './lookup'
 import { NormalizePattern } from './util'
 import { isWord, isLookup } from './typegaurds'
 
@@ -64,7 +65,6 @@ export class Trie extends Node {
         return { node, pattern }
     }
 
-    // TODO does this have to be a method?
     _addChars(node: Node, word: Word, isLastWord: boolean = true): Node {
         if (word.length === 0) return node
         const c: string = word[0]
@@ -80,8 +80,18 @@ export class Trie extends Node {
     }
 
     _addLookup(node: Node, lookup: Lookup, isLastWord: boolean = true): Node[] {
-        // TODO return all newly created nodes.
-        return [node]
+        let nodes: Node[] = []
+        for (let [alias, contexts] of Object.entries(lookup)) {
+            // normalize contexts to always be an array
+            if (!Array.isArray(contexts)) contexts = [contexts]
+
+            const lookupNode = new LookupNode(alias, contexts)
+            if (isLastWord) lookupNode.end = true
+            node.next.lookup[alias] = lookupNode
+            nodes.push(lookupNode)
+        }
+
+        return nodes
     }
 
     remove() { }
