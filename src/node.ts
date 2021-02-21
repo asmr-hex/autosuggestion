@@ -7,9 +7,9 @@ export class Node {
     constructor(readonly value: Value) {
         this.end = false
         this.next = {
-            char: new Map(),
+            char: {},
             word: null,
-            lookup: new Map()
+            lookup: {},
         }
     }
 }

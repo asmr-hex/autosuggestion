@@ -1,15 +1,11 @@
 import {
     isWord,
-    isLookupObject,
+    isLookup,
 } from './typegaurds'
 
 
-export const NormalizePattern: (words: string | LookupObject | Lookup | Pattern | InputPattern) => Pattern = words => {
+export function NormalizePattern(words: Word | Lookup | Pattern): Pattern {
     if (isWord(words)) return [words]
-    if (isLookupObject(words)) return [convertObjectToLookup(words)]
+    if (isLookup(words)) return [words]
     return words
-}
-
-export function convertObjectToLookup(obj: LookupObject): Lookup {
-    return new Map(Object.entries(obj))
 }

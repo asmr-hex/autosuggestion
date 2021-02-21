@@ -3,6 +3,6 @@ export function isWord(i: any): i is Word {
     return typeof i === "string"
 }
 
-export function isLookupObject(i: any): i is LookupObject {
-    return false // TODO implement
+export function isLookup(i: any): i is Lookup {
+    return (!!i) && (i.constructor === Object)
 }
