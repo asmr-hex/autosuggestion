@@ -1,12 +1,24 @@
 import { Node } from './node'
 
 
-type SimplifiedNode = Word | Lookup
+type SimplifiedNode = Word | Lookup | null
 type SimplifiedTrie = (SimplifiedTrie | SimplifiedNode)[]
 
 export function simplify(node: Node, simplified: SimplifiedTrie = []): SimplifiedTrie {
-    const nextChars = Object.values(node.next.char)
-    if (nextChars.length === 1) return simplify(nextChars[0], [...simplified, nextChars[0].value])
+    let paths: SimplifiedTrie = []
 
-    return []
+    for (const c of Object.values(node.next.char)) {
+        paths.push(simplify(c, [c.value]))
+    }
+    for (const w of Object.values(node.next.word)) {
+        paths.push(simplify(w, [' ', w.value as string]))
+    }
+    for (const r of Object.values(node.next.lookup)) {
+        paths.push(simplify(r, [{ [r.value as string]: r.contexts }]))
+    }
+
+    if (paths.length === 0) return simplified
+    if (paths.length === 1) return simplified.concat(paths[0])
+
+    return [...simplified, paths]
 }

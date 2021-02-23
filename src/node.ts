@@ -8,7 +8,7 @@ export class Node {
         this.end = false
         this.next = {
             char: {},
-            word: null,
+            word: {},
             lookup: {},
         }
     }

@@ -17,7 +17,7 @@ interface LookupMap {
 
 interface NextNodes {
     char: CharMap
-    word: Trie | null
+    word: CharMap
     lookup: LookupMap
 }
 
