@@ -156,4 +156,9 @@ describe('Trie', () => {
             expect(Object.values(trie.next.lookup)).toEqual([expectation])
         })
     })
+
+    describe('suggest(...)', () => {
+        it.todo('works.')
+    })
+
 })

@@ -1,5 +1,6 @@
 import { Node } from './node'
 import { LookupNode } from './lookup'
+import { Suggestion } from './suggestion'
 import { NormalizePattern } from './util'
 import { isWord, isLookup } from './typegaurds'
 
@@ -95,5 +96,24 @@ export class Trie extends Node {
     }
 
     remove() { }
-    suggest() { }
+
+    suggest(input: Word | Word[], dictionary = null): Suggestion[] {
+        let suggestions: Suggestion[] = []
+
+        // TODO normalize input to be an array (if only given a string)
+
+        for (const match of this.findMatches(input, this, dictionary)) {
+            suggestions = suggestions.concat(this.complete(match, input))
+        }
+
+        return suggestions
+    }
+
+    findMatches(input: Word[], node: Node, dictionary = null): Node[] {
+        return []
+    }
+
+    complete(node: Node, input: Word[]): Suggestion[] {
+        return []
+    }
 }
