@@ -100,7 +100,8 @@ export class Trie extends Node {
     suggest(input: Word | Word[], dictionary = null): Suggestion[] {
         let suggestions: Suggestion[] = []
 
-        // TODO normalize input to be an array (if only given a string)
+        // normalize input to be an array (if only given a string)
+        if (!Array.isArray(input)) input = [input]
 
         for (const match of this.findMatches(input, this, dictionary)) {
             suggestions = suggestions.concat(this.complete(match, input))
@@ -109,6 +110,8 @@ export class Trie extends Node {
         return suggestions
     }
 
+    /*
+     */
     findMatches(input: Word[], node: Node, dictionary = null): Node[] {
         return []
     }
