@@ -1,4 +1,4 @@
-
+import { NextNodes, Value } from './types'
 
 export class Node {
     end: boolean

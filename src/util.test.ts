@@ -1,3 +1,5 @@
+import { Pattern } from './types'
+
 import { NormalizePattern } from './util'
 
 

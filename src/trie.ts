@@ -1,3 +1,9 @@
+import {
+    Pattern,
+    Word,
+    Lookup,
+} from './types'
+
 import { Node } from './node'
 import { LookupNode } from './lookup'
 import { Suggestion } from './suggestion'
@@ -14,7 +20,7 @@ export class Trie extends Node {
         for (const pattern of patterns) { this.add(pattern) }
     }
 
-    add(pattern: Word | Lookup | Pattern) {
+    public add(pattern: Word | Lookup | Pattern) {
         const words = NormalizePattern(pattern)
         // TODO validate pattern.
         // TODO handle empty strings as Words by skipping.
@@ -24,7 +30,7 @@ export class Trie extends Node {
         this._add(this, words)
     }
 
-    _add(node: Node, pattern: Pattern, isLastWord: boolean = false) {
+    private _add(node: Node, pattern: Pattern, isLastWord: boolean = false) {
         if (pattern.length === 0) return
         if (pattern.length === 1) isLastWord = true
 
@@ -49,7 +55,7 @@ export class Trie extends Node {
         }
     }
 
-    _addFirstCharOfNextWord(node: Node, pattern: Pattern): { node: Node, pattern: Pattern } {
+    private _addFirstCharOfNextWord(node: Node, pattern: Pattern): { node: Node, pattern: Pattern } {
         const word = pattern[0] as Word
         const c = word[0]
 
@@ -66,7 +72,7 @@ export class Trie extends Node {
         return { node, pattern }
     }
 
-    _addChars(node: Node, word: Word, isLastWord: boolean = true): Node {
+    private _addChars(node: Node, word: Word, isLastWord: boolean = true): Node {
         if (word.length === 0) return node
         const c: string = word[0]
         if (!node.next.char[c]) {
@@ -80,7 +86,7 @@ export class Trie extends Node {
         return node.next.char[c]
     }
 
-    _addLookup(node: Node, lookup: Lookup, isLastWord: boolean = true): Node[] {
+    private _addLookup(node: Node, lookup: Lookup, isLastWord: boolean = true): Node[] {
         let nodes: Node[] = []
         for (let [alias, contexts] of Object.entries(lookup)) {
             // normalize contexts to always be an array
@@ -95,9 +101,9 @@ export class Trie extends Node {
         return nodes
     }
 
-    remove() { }
+    public remove() { }
 
-    suggest(input: Word | Word[], dictionary = null): Suggestion[] {
+    public suggest(input: Word | Word[], dictionary = null): Suggestion[] {
         let suggestions: Suggestion[] = []
 
         // normalize input to be an array (if only given a string)
@@ -112,11 +118,12 @@ export class Trie extends Node {
 
     /*
      */
-    findMatches(input: Word[], node: Node, dictionary = null): Node[] {
+    private findMatches(input: Word[], node: Node, dictionary = null): Node[] {
+
         return []
     }
 
-    complete(node: Node, input: Word[]): Suggestion[] {
+    private complete(node: Node, input: Word[]): Suggestion[] {
         return []
     }
 }

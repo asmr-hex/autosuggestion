@@ -33,7 +33,8 @@
     "build:dist": "rm -rf dist && npx webpack",
     "test": "npx jest",
     "test:watch": "npx jest --watch",
-    "docs": "npm typedoc"
+    "docs": "npx typedoc",
+    "docs:watch": "npx typedoc --watch"
   },
   "files": [
     "dist",

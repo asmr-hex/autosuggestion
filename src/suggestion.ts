@@ -1,4 +1,4 @@
-
+import { Word } from './types'
 
 export class SuggestedWord {
     constructor() {

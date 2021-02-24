@@ -1,3 +1,5 @@
+import { Word, Lookup } from './types'
+
 import { Node } from './node'
 
 
