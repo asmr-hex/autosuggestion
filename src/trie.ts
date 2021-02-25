@@ -147,12 +147,17 @@ export class Trie extends Node {
      * given **"abc d"**, it wll return the **"d"** [[Node | nodes]] labeled
      * _(1)_, _(2)_, _(3)_
      */
-    private findMatches(input: Word[], node: Node, dictionary = null): Node[] {
+    public findMatches(tokens: Word[], node: Node, dictionary = null): Node[] {
+        // first, we dive deep. are there any lookups on this node?
+        let nodes: Node[] = []
+        for (const [alias, lookup] of Object.entries(node.next.lookup)) {
+            nodes = nodes.concat(lookup.findMatches(tokens))
+        }
 
         return []
     }
 
-    private findMatchingWord(word: Word, node: Node): Node | null {
+    private findMatchingWord(token: Word, node: Node): Node | null {
         if (node.value !== null) {
 
         }
