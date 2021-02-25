@@ -1,3 +1,5 @@
 export * from './types'
+export { Node } from './node'
+export { Dictionary } from './dictionary'
 export { Suggest } from './suggestions'
 export { Trie } from './trie'

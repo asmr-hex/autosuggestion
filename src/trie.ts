@@ -116,11 +116,47 @@ export class Trie extends Node {
         return suggestions
     }
 
-    /*
+    /**
+     * Given an input sequence of words, a starting [[Node | node]], and
+     * a [[Dictionary | dictionary]], finds all valid matching paths that
+     * the input satisfies.
+     * 
+     * #### Simple Example
+     * If we have a starting node which yields the following
+     * sub-trie,
+     * ```
+     * t - r - i - e
+     *       \
+     *         e - e
+     * ```
+     * and input *"tr"*, the returned node will be *"r"*.
+     *
+     * #### Advanced Example
+     * With a more complex starting trie,
+     * ```
+     * null - a - b - c -   - d (1)
+     *      \
+     *        <X> - c -   - d (2)
+     *
+     * <X>: null - a - b
+     *           \ 
+     *             <Y>
+     *
+     * <Y>: null - a - b - c -   - d (3)
+     * ```
+     * given **"abc d"**, it wll return the **"d"** [[Node | nodes]] labeled
+     * _(1)_, _(2)_, _(3)_
      */
     private findMatches(input: Word[], node: Node, dictionary = null): Node[] {
 
         return []
+    }
+
+    private findMatchingWord(word: Word, node: Node): Node | null {
+        if (node.value !== null) {
+
+        }
+        return node
     }
 
     private complete(node: Node, input: Word[]): Suggestion[] {
