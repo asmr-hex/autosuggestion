@@ -4,6 +4,7 @@ import {
     Lookup,
 } from './types'
 
+import { Dictionary } from './dictionary'
 import { Node } from './node'
 import { LookupNode } from './lookup'
 import { Suggestion } from './suggestion'
@@ -13,7 +14,7 @@ import { isWord, isLookup } from './typegaurds'
 
 export class Trie extends Node {
 
-    constructor(patterns: Pattern[] = []) {
+    constructor(readonly dictionary: Dictionary, patterns: Pattern[] = []) {
         super(null)
 
         // add provided patterns to our trie.
@@ -22,12 +23,18 @@ export class Trie extends Node {
 
     public add(pattern: Word | Lookup | Pattern) {
         const words = NormalizePattern(pattern)
+
+        if (words.length === 0) return
+
         // TODO validate pattern.
         // TODO handle empty strings as Words by skipping.
         // (gaurantees each word has at least one character)
 
-
-        this._add(this, words)
+        // this ensures that the root node of the Trie does not have any next.chars
+        // rather, the null root acts as the last char of the previous word in a pattern
+        // this is a simplifying structure for the algorithm.
+        const { node, pattern: newPattern } = this._addFirstCharOfNextWord(this, words)
+        this._add(node, newPattern)
     }
 
     private _add(node: Node, pattern: Pattern, isLastWord: boolean = false) {
@@ -59,6 +66,7 @@ export class Trie extends Node {
         const word = pattern[0] as Word
         const c = word[0]
 
+        // TODO do we need to check if this node has already been made??
         node.next.word[c] = new Node(c)
         node = node.next.word[c]
 
@@ -92,7 +100,14 @@ export class Trie extends Node {
             // normalize contexts to always be an array
             if (!Array.isArray(contexts)) contexts = [contexts]
 
-            const lookupNode = new LookupNode(alias, contexts)
+            let tries: Trie[] = []
+            for (const context of contexts) {
+                const trie = this.dictionary.contexts.get(context)
+                if (!trie) throw new Error(`No such context '${context}'`) // TODO make this a type
+                tries.push(trie)
+            }
+
+            const lookupNode = new LookupNode(alias, tries)
             if (isLastWord) lookupNode.end = true
             node.next.lookup[alias] = lookupNode
             nodes.push(lookupNode)
@@ -101,67 +116,19 @@ export class Trie extends Node {
         return nodes
     }
 
-    public remove() { }
+    public remove(pattern: Pattern) { }
 
-    public suggest(input: Word | Word[], dictionary = null): Suggestion[] {
+    public suggest(input: Word | Word[]): Suggestion[] {
         let suggestions: Suggestion[] = []
 
         // normalize input to be an array (if only given a string)
         if (!Array.isArray(input)) input = [input]
 
-        for (const match of this.findMatches(input, this, dictionary)) {
+        for (const match of this.matchPattern(input).filter(m => m.remainder.length !== 0).map(m => m.node)) {
             suggestions = suggestions.concat(this.complete(match, input))
         }
 
         return suggestions
-    }
-
-    /**
-     * Given an input sequence of words, a starting [[Node | node]], and
-     * a [[Dictionary | dictionary]], finds all valid matching paths that
-     * the input satisfies.
-     * 
-     * #### Simple Example
-     * If we have a starting node which yields the following
-     * sub-trie,
-     * ```
-     * t - r - i - e
-     *       \
-     *         e - e
-     * ```
-     * and input *"tr"*, the returned node will be *"r"*.
-     *
-     * #### Advanced Example
-     * With a more complex starting trie,
-     * ```
-     * null - a - b - c -   - d (1)
-     *      \
-     *        <X> - c -   - d (2)
-     *
-     * <X>: null - a - b
-     *           \ 
-     *             <Y>
-     *
-     * <Y>: null - a - b - c -   - d (3)
-     * ```
-     * given **"abc d"**, it wll return the **"d"** [[Node | nodes]] labeled
-     * _(1)_, _(2)_, _(3)_
-     */
-    public findMatches(tokens: Word[], node: Node, dictionary = null): Node[] {
-        // first, we dive deep. are there any lookups on this node?
-        let nodes: Node[] = []
-        for (const [alias, lookup] of Object.entries(node.next.lookup)) {
-            nodes = nodes.concat(lookup.findMatches(tokens))
-        }
-
-        return []
-    }
-
-    private findMatchingWord(token: Word, node: Node): Node | null {
-        if (node.value !== null) {
-
-        }
-        return node
     }
 
     private complete(node: Node, input: Word[]): Suggestion[] {

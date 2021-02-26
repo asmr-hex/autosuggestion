@@ -21,22 +21,82 @@ export class Node {
         this.next = { char: {}, word: {}, lookup: {} }
     }
 
-    public findMatching(tokens: Word[]): Match[] {
+    /**
+     * Given an input sequence of words, a starting [[Node | node]], and
+     * a [[Dictionary | dictionary]], finds all valid matching paths that
+     * the input satisfies.
+     * 
+     * #### Simple Example
+     * If we have a starting node which yields the following
+     * sub-trie,
+     * ```
+     * t - r - i - e
+     *       \
+     *         e - e
+     * ```
+     * and input *"tr"*, the returned node will be *"r"*.
+     *
+     * #### Advanced Example
+     * With a more complex starting trie,
+     * ```
+     * null - a - b - c -   - d (1)
+     *      \
+     *        <X> -   - d (2)
+     *
+     * <X>: null - a - b - c
+     *           \ 
+     *             <Y>
+     *
+     * <Y>: null - a - b - c -   - d (3)
+     * ```
+     * given **"abc d"**, it wll return the **"d"** [[Node | nodes]] labeled
+     * _(1)_, _(2)_, _(3)_
+     * 
+     * Since patterns can span multiple levels of nested contexts, we need to return
+     * not only the matched words (partially matched on completed words), but also the
+     * remainder of the match. This way, we can check for matches in parent contexts in
+     * case a pattern satisfies a match over an arbitrary number of contextual levels.
+     */
+    public matchPattern(tokens: Word[]): Match[] {
+        if (tokens.length === 0) return []
+
         let matches: Match[] = []
 
         // find matching paths from lookups
         for (const [alias, lookup] of Object.entries(this.next.lookup)) {
-            matches = matches.concat(lookup.findMatching(tokens))
+            matches = matches.concat(lookup.matchPattern(tokens))
         }
 
-        // okay, the list of matches could contain matches with remainders.
+        return matches.concat(this.matchWord(tokens))
+    }
 
-        // we want to try to resolve the matches that have remainders here by searching
-        // words.
-        // if there are results, we remove this entry and add the results instead.
+    public matchWord(tokens: Word[]): Match[] {
+        const word = this.next.word[tokens[0][0]]
+        if (!word) return []
 
-        // now its time to search characters.
+        const node = word.matchChars(tokens[0])
+        if (!node) return []
 
-        return matches
+        const match = { node, remainder: tokens.slice(1) }
+
+        return match.remainder.length > 0 ? node.matchPattern(match.remainder) : [match]
+    }
+
+    /**
+     * Given an word, returns the final node which matches the complete word. null otherwise.
+     */
+    public matchChars(word: Word): Node | null {
+        if (this.value !== word[0]) return null
+
+        let node: Node = this
+        word = word.substr(1)
+
+        while (word) {
+            node = node.next.char[word[0]]
+            if (!node) return null
+            word = word.substr(1)
+        }
+
+        return node
     }
 }

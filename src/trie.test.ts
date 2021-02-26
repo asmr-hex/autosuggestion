@@ -1,5 +1,6 @@
 import { Word, Lookup, Pattern } from './types'
 
+import { Dictionary } from './dictionary'
 import { Trie } from './trie'
 import { Node } from './node'
 import { LookupNode } from './lookup'
@@ -13,7 +14,8 @@ describe('Trie', () => {
     })
     describe('._add(...)', () => {
         it('adds a single pattern of a single word', () => {
-            const trie: Trie = new Trie()
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
             const pattern: Pattern = ['acab']
             const expectations = ['a', 'c', 'a', 'b']
 
@@ -21,7 +23,8 @@ describe('Trie', () => {
             expect(simplify(trie)).toEqual(expectations)
         })
         it('adds a single pattern of multiple words', () => {
-            const trie: Trie = new Trie()
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
             const pattern: Pattern = ['acab', 'or', 'acai']
             const expectations = ['a', 'c', 'a', 'b', ' ', 'o', 'r', ' ', 'a', 'c', 'a', 'i']
 
@@ -29,24 +32,37 @@ describe('Trie', () => {
             expect(simplify(trie)).toEqual(expectations)
         })
         it('adds a single pattern of a single lookup', () => {
-            const trie: Trie = new Trie()
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
+
+            const frog: Trie = dictionary.define('frog')
+            const turtle: Trie = dictionary.define('turtle')
+
             const pattern: Pattern = [{ critters: ['frog', 'turtle'] }]
-            const expectations = pattern
+            const expectations = [{ critters: [frog, turtle] }]
 
             trie['_add'](trie, pattern)
             expect(simplify(trie)).toEqual(expectations)
         })
         it('adds a single pattern of multiple lookups', () => {
-            const trie: Trie = new Trie()
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
+
+            const frog: Trie = dictionary.define('frog')
+            const turtle: Trie = dictionary.define('turtle')
+            const emerald: Trie = dictionary.define('emerald')
+            const topaz: Trie = dictionary.define('topaz')
+
             const pattern: Pattern = [{ critters: ['frog', 'turtle'] }, { stones: ['emerald', 'topaz'] }]
-            const expectations = pattern
+            const expectations = [{ critters: [frog, turtle] }, { stones: [emerald, topaz] }]
 
             trie['_add'](trie, pattern)
             expect(simplify(trie)).toEqual(expectations)
         })
 
         it('adds multiple patterns of a single word', () => {
-            const trie: Trie = new Trie()
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
             const patterns: Pattern[] = [['acab'], ['acai']]
             const expectations = ['a', 'c', 'a', [['b'], ['i']]]
 
@@ -55,7 +71,8 @@ describe('Trie', () => {
             expect(simplify(trie)).toEqual(expectations)
         })
         it('adds multiple patterns of multiple words', () => {
-            const trie: Trie = new Trie()
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
             const patterns: Pattern[] = [['ab', 'cd'], ['about', 'u']]
             const expectations = ['a', 'b', [['o', 'u', 't', ' ', 'u'], [' ', 'c', 'd']]]
 
@@ -64,18 +81,30 @@ describe('Trie', () => {
             expect(simplify(trie)).toEqual(expectations)
         })
         it('adds multiple patterns of a single lookup', () => {
-            const trie: Trie = new Trie()
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
+
+            const pizza: Trie = dictionary.define('pizza')
+            const mold: Trie = dictionary.define('mold')
+
             const patterns: Pattern[] = [[{ food: ['pizza'] }], [{ slime: ['mold'] }]]
-            const expectations = [patterns]
+            const expectations = [[[{ food: [pizza] }], [{ slime: [mold] }]]]
 
             trie['_add'](trie, patterns[0])
             trie['_add'](trie, patterns[1])
             expect(simplify(trie)).toEqual(expectations)
         })
         it('adds multiple patterns of multiple lookups', () => {
-            const trie: Trie = new Trie()
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
+
+            const pizza = dictionary.define('pizza')
+            const blue = dictionary.define('blue')
+            const mold = dictionary.define('mold')
+            const leisure = dictionary.define('leisure')
+
             const patterns: Pattern[] = [[{ food: ['pizza'] }, { colors: ['blue'] }], [{ slime: ['mold'] }, { enjoyment: ['leisure'] }]]
-            const expectations = [patterns]
+            const expectations = [[[{ food: [pizza] }, { colors: [blue] }], [{ slime: [mold] }, { enjoyment: [leisure] }]]]
 
             trie['_add'](trie, patterns[0])
             trie['_add'](trie, patterns[1])
@@ -84,7 +113,8 @@ describe('Trie', () => {
     })
     describe('_addFirstCharOfNextWord', () => {
         it('adds the first character of a word to node.next.word and returns the char node', () => {
-            const trie: Trie = new Trie()
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
             const word: Pattern = ['bat']
             const expectation = { node: new Node('b'), pattern: ['at'] }
 
@@ -93,7 +123,8 @@ describe('Trie', () => {
             expect(result.node.end).toBeFalsy()
         })
         it('adds the first character of a single char word to node.next.word and returns the char node', () => {
-            const trie: Trie = new Trie()
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
             const word: Pattern = ['b']
             const expectation = { node: new Node('b'), pattern: [] }
             expectation.node.end = true
@@ -105,7 +136,8 @@ describe('Trie', () => {
     })
     describe('_addChars(...)', () => {
         it('adds a word to the provided node', () => {
-            const trie: Trie = new Trie()
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
             const word: Word = 'mold'
             const expectation = new Node('d')
             expectation.end = true
@@ -113,7 +145,8 @@ describe('Trie', () => {
             expect(simplify(trie)).toEqual(['m', 'o', 'l', 'd'])
         })
         it('adds multiple words, forming a diverging path', () => {
-            const trie: Trie = new Trie()
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
             const words: Word[] = ['fungi', 'funguy']
             const expectation = ['f', 'u', 'n', 'g', [['i'], ['u', 'y']]]
 
@@ -125,7 +158,8 @@ describe('Trie', () => {
             expect(trie.next.char['f'].next.char['u'].next.char['n'].next.char['g'].next.char['u'].next.char['y'].end).toBeTruthy()
         })
         it('adds multiple words, where one word is a substr of the other', () => {
-            const trie: Trie = new Trie()
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
             const words: Word[] = ['fun', 'fungi']
             const expectation = ['f', 'u', 'n', 'g', 'i']
 
@@ -138,9 +172,11 @@ describe('Trie', () => {
     })
     describe('_addLookup(...)', () => {
         it('adds a single lookup with a single context to a node', () => {
-            const trie: Trie = new Trie()
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
+            const mammalTrie: Trie = dictionary.define('mammals')
             const lookup: Lookup = { animals: 'mammals' }
-            const expectation: LookupNode = new LookupNode('animals', ['mammals'])
+            const expectation: LookupNode = new LookupNode('animals', [mammalTrie])
             expectation.end = true
 
             expect(trie['_addLookup'](trie, lookup)).toEqual([expectation])
@@ -148,9 +184,12 @@ describe('Trie', () => {
             expect(Object.values(trie.next.lookup)).toEqual([expectation])
         })
         it('adds a single lookup with multiple contexts to a node', () => {
-            const trie: Trie = new Trie()
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
+            const mammalsTrie: Trie = dictionary.define('mammals')
+            const bugsTrie: Trie = dictionary.define('bugs')
             const lookup: Lookup = { animals: ['mammals', 'bugs'] }
-            const expectation: LookupNode = new LookupNode('animals', ['mammals', 'bugs'])
+            const expectation: LookupNode = new LookupNode('animals', [mammalsTrie, bugsTrie])
             expectation.end = true
 
             expect(trie['_addLookup'](trie, lookup)).toEqual([expectation])
