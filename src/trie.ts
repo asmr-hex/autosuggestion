@@ -22,7 +22,7 @@ export class Trie extends Node {
     }
 
     public add(pattern: Word | Lookup | Pattern) {
-        const words = NormalizePattern(pattern)
+        let words = NormalizePattern(pattern)
 
         if (words.length === 0) return
 
@@ -30,11 +30,16 @@ export class Trie extends Node {
         // TODO handle empty strings as Words by skipping.
         // (gaurantees each word has at least one character)
 
+        let node: Node = this
+
         // this ensures that the root node of the Trie does not have any next.chars
         // rather, the null root acts as the last char of the previous word in a pattern
         // this is a simplifying structure for the algorithm.
-        const { node, pattern: newPattern } = this._addFirstCharOfNextWord(this, words)
-        this._add(node, newPattern)
+        if (isWord(words[0])) {
+            ({ node, pattern: words } = this._addFirstCharOfNextWord(this, words))
+        }
+
+        this._add(node, words)
     }
 
     private _add(node: Node, pattern: Pattern, isLastWord: boolean = false) {
