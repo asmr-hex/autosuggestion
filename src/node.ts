@@ -79,7 +79,11 @@ export class Node {
 
         const match = { node, remainder: tokens.slice(1) }
 
-        return match.remainder.length > 0 ? node.matchPattern(match.remainder) : [match]
+        // (1) if there are no remainders keep searching. include match in results if it is a terminal.
+        // (2) if there are no remainders, return this single match (regardless of if it isa terminal).
+        return match.remainder.length > 0
+            ? (node.end ? [match] : []).concat(node.matchPattern(match.remainder))  // (1)
+            : [match]                                                               // (2)
     }
 
     /**
