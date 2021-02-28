@@ -25,6 +25,16 @@ describe('LookupNode', () => {
 
             expect(lookup.matchPattern(['bi', 'slug'])).toEqual([])
         })
+        it('returns no matches, given tokens which match words within a pattern but not the entire pattern of a sub-context', () => {
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('A')
+
+            dictionary.define('B', [['big', 'bug']])
+            trie.add({ 'b': 'B' })
+            const lookup = trie.next.lookup['b']
+
+            expect(lookup.matchPattern(['big', 'slug'])).toEqual([])
+        })
         it('returns no matches, given tokens which complete word in a context partially matches an input word (input is superstring of context word)', () => {
             const dictionary: Dictionary = new Dictionary()
             const trie: Trie = dictionary.define('A')
@@ -47,7 +57,19 @@ describe('LookupNode', () => {
             expect(matches.length).toEqual(1)
             expect(matches[0].remainder.length).toEqual(0)
         })
-        it('returns the lookup node as a match when a match has no remainder', () => {
+        it('returns a match with no remainder, given tokens which partially match a sub-context (the matched node is within the sub-context)', () => {
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('A')
+
+            const bTrie: Trie = dictionary.define('B', [['big', 'bug']])
+            trie.add({ 'b': 'B' })
+            const lookup = trie.next.lookup['b']
+
+            expect(lookup.matchPattern(['big'])).toEqual([
+                { node: bTrie.next.word['b'].next.char['i'].next.char['g'], remainder: [] }
+            ])
+        })
+        it('returns the lookup node as a match when a match has no remainder and is a complete match in the sub-context', () => {
             const dictionary: Dictionary = new Dictionary()
             const trie: Trie = dictionary.define('A')
 
@@ -57,7 +79,7 @@ describe('LookupNode', () => {
 
             expect(lookup.matchPattern(['big', 'bug'])).toEqual([{ node: lookup, remainder: [] }])
         })
-        it('returns a match with a remainder, given tokens which match a sub-context but no other words in the current context', () => {
+        it('returns a match with a remainder, given tokens which match a sub-context but no other words in the current context (the match node is the lookup)', () => {
             const dictionary: Dictionary = new Dictionary()
             const trie: Trie = dictionary.define('A')
 
@@ -65,13 +87,6 @@ describe('LookupNode', () => {
             trie.add({ 'b': 'B' })
             const lookup = trie.next.lookup['b']
 
-            // BREADCRUMB: looks like if we take out the 'here' in the argument, it will
-            // identify 'lookup' as a matching node. seems like something to do with not
-            // pushing a node to matches in the sub-context (i.e. in Node.matchPattern) if
-            // a pattern is a substring of a provided input token pattern. I.e., when trying to
-            // match all the tokens in a sub-context, we encounter a node that has end === true--
-            // we might not be pushing that node to the matches result in this case....
-            // TODO look into this.
             expect(lookup.matchPattern(['big', 'bug', 'here'])).toEqual([
                 { node: lookup, remainder: ['here'] }
             ])
