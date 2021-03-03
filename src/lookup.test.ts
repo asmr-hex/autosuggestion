@@ -91,5 +91,17 @@ describe('LookupNode', () => {
                 { node: lookup, remainder: ['here'] }
             ])
         })
+        it('returns a match on the current lookup node with no remainder, given a pattern which matches the first sub-contextual lookup', () => {
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('A')
+
+            dictionary.define('B', [['big', 'bug'], ['bib']])
+            trie.add([{ 'b': 'B' }, { 'b': 'B' }])
+            const lookup = trie.next.lookup['b']
+
+            expect(lookup.matchPattern(['big', 'bug'])).toEqual([
+                { node: lookup, remainder: [] }
+            ])
+        })
     })
 })

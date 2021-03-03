@@ -49,7 +49,7 @@ export class LookupNode extends Node {
                 // attempt to resolve a little more of the remainder on this contextual level.
                 // even if this node is a terminal, it could have a continued pattern that we
                 // could potentially match with.
-                matches.concat(this.matchWord(match.remainder))
+                matches.concat(super.matchPattern(match.remainder))
             }
         }
 

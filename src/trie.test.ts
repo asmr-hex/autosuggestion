@@ -11,6 +11,16 @@ describe('Trie', () => {
     describe('.add(...)', () => {
         it.skip('normalizes the input and inserts the pattern', () => {
         })
+        it('adds multiple patterns which overlap on the first word', () => {
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('A')
+
+            trie.add(['big', 'bug'])
+            trie.add(['bib'])
+            const expectations = [' ', 'b', 'i', [['g', ' ', 'b', 'u', 'g'], ['b']]]
+
+            expect(simplify(trie)).toEqual(expectations)
+        })
     })
     describe('._add(...)', () => {
         it('adds a single pattern of a single word', () => {
@@ -132,6 +142,20 @@ describe('Trie', () => {
             const result = trie['_addFirstCharOfNextWord'](trie, word)
             expect(result).toEqual(expectation)
             expect(result.node.end).toBeTruthy()
+        })
+        it('returns the char node if the first character of a word already exists in node.next.word', () => {
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
+            const { node: exists, pattern } = trie['_addFirstCharOfNextWord'](trie, ['bop'])
+            trie['_addChars'](exists, pattern[0] as Word) // just use this as a shortcut.
+
+            const word: Pattern = ['bat']
+            const expectation = { node: exists, pattern: ['at'] }
+
+            const result = trie['_addFirstCharOfNextWord'](trie, word)
+            expect(result).toEqual(expectation)
+            expect(result.node.end).toBeFalsy()
+            expect(simplify(trie)).toEqual([' ', 'b', 'o', 'p'])
         })
     })
     describe('_addChars(...)', () => {

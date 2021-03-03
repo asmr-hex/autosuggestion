@@ -71,8 +71,8 @@ export class Trie extends Node {
         const word = pattern[0] as Word
         const c = word[0]
 
-        // TODO do we need to check if this node has already been made??
-        node.next.word[c] = new Node(c)
+        // check if this node has already been made
+        if (!(c in node.next.word)) node.next.word[c] = new Node(c)
         node = node.next.word[c]
 
         if (word.length === 1 && pattern.length === 1) {
