@@ -1,5 +1,6 @@
 import { Word } from './types'
 import { Node, Match } from './node'
+import { Suggestion } from './suggestion'
 
 
 export class LookupNode extends Node {
@@ -54,5 +55,12 @@ export class LookupNode extends Node {
         }
 
         return matches
+    }
+
+    public completePattern(tokens: Word[]): Suggestion[] {
+        for (const context of this.contexts) {
+            // TODO search  in other sub-contexts
+        }
+        return []
     }
 }

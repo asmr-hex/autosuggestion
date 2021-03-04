@@ -115,5 +115,18 @@ describe('LookupNode', () => {
                 { node: bTrie.next.word['b'], remainder: [] }
             ])
         })
+        it('returns a match on the current lookup node with no remainder, given a pattern which matches multiple consecutive sub-contextual lookups', () => {
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('A')
+
+            dictionary.define('B', [['big', 'bug'], ['bib']])
+            trie.add([{ 'b': 'B' }, { 'bb': 'B' }])
+            const firstLookup = trie.next.lookup['b']
+            const lastLookup = trie.next.lookup['b'].next.lookup['bb']
+
+            expect(firstLookup.matchPattern(['big', 'bug', 'big', 'bug'])).toEqual([
+                { node: lastLookup, remainder: [] }
+            ])
+        })
     })
 })

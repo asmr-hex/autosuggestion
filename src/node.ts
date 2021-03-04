@@ -1,4 +1,5 @@
 import { Word, NextNodes, Value } from './types'
+import { Suggestion } from './suggestion'
 
 /**
  * **NOTE:** a valid [[Match]] with a `remainder` can **only** occur if the partial match 
@@ -102,5 +103,38 @@ export class Node {
         }
 
         return node
+    }
+
+    public completePattern(tokens: Word[]): Suggestion[] {
+        let suggestions: Suggestion[] = []
+
+        // complete pattern in all next lookups
+        for (const [alias, lookup] of Object.entries(this.next.lookup)) {
+            suggestions = suggestions.concat(lookup.completePattern(tokens))
+        }
+
+        // complete pattern in all next words
+        for (const word of Object.values(this.next.word)) {
+            suggestions = suggestions.concat(word.completeWord([...tokens, ' ', '']))
+        }
+
+        return suggestions.concat(this.completeWord(tokens))
+    }
+
+    public completeWord(tokens: Word[]): Suggestion[] {
+        let suggestions: Suggestion[] = []
+        const lastWord: Word = tokens.pop() || ''
+
+        // if this is an ending node, add it to suggestions
+        // TODO add `tokens` to suggestions
+
+        // augment the last token with the next characters
+        for (const char of Object.values(this.next.char)) {
+            const augmentedTokens = [...tokens, `${lastWord}${char.value}`]
+
+            suggestions = suggestions.concat(char.completePattern(augmentedTokens))
+        }
+
+        return suggestions
     }
 }
