@@ -103,5 +103,17 @@ describe('LookupNode', () => {
                 { node: lookup, remainder: [] }
             ])
         })
+        it('returns a match (a node from a nested context) with no remainder, given a pattern which matches a second sequential sub-contextual lookup', () => {
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('A')
+
+            const bTrie = dictionary.define('B', [['big', 'bug'], ['bib']])
+            trie.add([{ 'b': 'B' }, { 'bb': 'B' }])
+            const lookup = trie.next.lookup['b']
+
+            expect(lookup.matchPattern(['big', 'bug', 'b'])).toEqual([
+                { node: bTrie.next.word['b'], remainder: [] }
+            ])
+        })
     })
 })
