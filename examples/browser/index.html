@@ -63,44 +63,48 @@
                 <div id='terms'></div>
             </div>
         </div>
-        
+
+        <!-- import the autosuggestion library -->
         <script type='text/javascript' src='../../dist/autosuggestion.umd.js'></script>
+
+        <!-- this is where the example Javascript begins -->
         <script type='text/javascript'>
+         // instantiate new autosuggestion dictionary
          const dictionary = new autosuggestion.Dictionary()
          const terms = [
              'anemone',
              'analysis',
+             'artillery',
              'antlers',
              'antler',
              'artful',
              'ants',
              'art',
-             'are',
+             'arc',
+             'an',
+             'a'
          ]
-         dictionary.define('noun', terms.map(t => [t]))
 
+         // define some terms under the context 'terms'
+         dictionary.define('terms', terms)
+
+         // append a list of the terms in HTML so we can see what terms have been defined.
          document.getElementById('terms').innerHTML = terms.map(t => `<div class="term">${t}</div>`).join('\n')
-         
+
+         // register an event listener for every keystroke in the input element
          document.getElementById('text-box').addEventListener('keyup', e => {
-             // parse text
+             // parse text (just split by white space)
              const tokens = e.target.value.split(' ').filter(t => t !== '')
-             
+
+             // generate suggestions based on the input text
              let suggestions = []
              for (const suggestion of dictionary.suggest(tokens)) {
                  suggestions.push(`<div class="suggestion">${suggestion.words.join(' ')}</div>`)
              }
+             
+             // set all valid suggestions for the person's input text
              document.getElementById('suggestions').innerHTML = suggestions.join('\n')
          })
-         
-         //document.getElementById('root').innerHTML = " This is a browser example " + autosuggestion.Suggest("...it works")
         </script>
     </body>
 </html>
-
-
-
-
-
-
-
-
