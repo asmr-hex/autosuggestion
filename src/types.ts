@@ -38,5 +38,5 @@ export interface NextNodes {
     lookup: LookupMap
 }
 
-export type Pattern = (string | Lookup)[]
-
+export type Pattern = (Word | Lookup)[]
+export type SuggestedPattern = (Word | { [alias: string]: import('./node').Node[] })[]

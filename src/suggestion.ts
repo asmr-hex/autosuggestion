@@ -1,4 +1,4 @@
-import { Word } from './types'
+import { Word, SuggestedPattern } from './types'
 
 export class SuggestedWord {
     constructor() {
@@ -8,11 +8,10 @@ export class SuggestedWord {
 
 
 export class Suggestion {
-    words: SuggestedWord[] = []
-    rank: number = 0
+    public rank: number = 0
     private _simplified: Word[] = []
 
-    constructor() {
+    constructor(public words: SuggestedPattern) {
 
     }
 

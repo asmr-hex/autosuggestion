@@ -1,4 +1,4 @@
-import { Word, NextNodes, Value } from './types'
+import { Word, NextNodes, SuggestedPattern, Value } from './types'
 import { Suggestion } from './suggestion'
 
 /**
@@ -105,7 +105,7 @@ export class Node {
         return node
     }
 
-    public completePattern(tokens: Word[]): Suggestion[] {
+    public completePattern(tokens: SuggestedPattern): Suggestion[] {
         let suggestions: Suggestion[] = []
 
         // complete pattern in all next lookups
@@ -114,19 +114,21 @@ export class Node {
         }
 
         // complete pattern in all next words
-        for (const word of Object.values(this.next.word)) {
-            suggestions = suggestions.concat(word.completeWord([...tokens, ' ', '']))
+        for (const [char, word] of Object.entries(this.next.word)) {
+            suggestions = suggestions.concat(word.completeWord([...tokens, char]))
         }
 
         return suggestions.concat(this.completeWord(tokens))
     }
 
-    public completeWord(tokens: Word[]): Suggestion[] {
+    public completeWord(tokens: SuggestedPattern): Suggestion[] {
         let suggestions: Suggestion[] = []
-        const lastWord: Word = tokens.pop() || ''
 
         // if this is an ending node, add it to suggestions
-        // TODO add `tokens` to suggestions
+        if (this.end) suggestions.push(new Suggestion([...tokens]))
+
+        const lastWord: Word = (tokens.pop() as Word) || ''
+
 
         // augment the last token with the next characters
         for (const char of Object.values(this.next.char)) {

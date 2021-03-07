@@ -1,4 +1,4 @@
-import { Word } from './types'
+import { Word, SuggestedPattern } from './types'
 import { Node, Match } from './node'
 import { Suggestion } from './suggestion'
 
@@ -57,10 +57,12 @@ export class LookupNode extends Node {
         return matches
     }
 
-    public completePattern(tokens: Word[]): Suggestion[] {
-        for (const context of this.contexts) {
-            // TODO search  in other sub-contexts
-        }
-        return []
+    public completePattern(tokens: SuggestedPattern): Suggestion[] {
+        let suggestions: Suggestion[] = []
+
+        // append this lookup context.
+        tokens.push({ [this.value as string]: this.contexts })
+
+        return super.completePattern(tokens)
     }
 }

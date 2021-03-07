@@ -1,4 +1,5 @@
 import { Node } from './node'
+import { Suggestion } from './suggestion'
 import { Trie } from './trie'
 import { Dictionary } from './dictionary'
 
@@ -122,6 +123,81 @@ describe('Node', () => {
 
             const word = 'wavelet'
             expect(trie.next.word['w'].matchChars(word)).toBeNull()
+        })
+    })
+    describe('.completePattern(...)', () => {
+        it.todo('returns a single suggestion, given a terminal leaf node')
+        it('returns multiple suggestions, given a terminal leaf lookup node with one word', () => {
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('A')
+
+            const bTrie: Trie = dictionary.define('B', [['bub']])
+            trie.add([{ 'familiars': 'B' }])
+            trie.add([{ 'unfamiliars': 'B' }])
+
+            const expectations = [
+                new Suggestion([{ 'familiars': [bTrie] }]),
+                new Suggestion([{ 'unfamiliars': [bTrie] }]),
+            ]
+            expect(trie.completePattern([])).toEqual(expectations)
+        })
+    })
+    describe('.completeWord(...)', () => {
+        it('returns a single suggestion, given a terminal leaf node', () => {
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
+            trie.add('xi')
+
+            const expectation = [new Suggestion(['xi'])]
+            expect(trie.next.word['x'].next.char['i'].completeWord(['xi'])).toEqual(expectation)
+        })
+        it('returns a multiple suggestions, given a terminal node that is a substring of another suggestion', () => {
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
+            trie.add('xi')
+            trie.add('xiao')
+
+            const expectation = [
+                new Suggestion(['xi']),
+                new Suggestion(['xiao'])
+            ]
+            expect(trie.next.word['x'].next.char['i'].completeWord(['xi'])).toEqual(expectation)
+        })
+        it('returns a multiple suggestions, given a node that branches into three suggestions', () => {
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
+            trie.add('xray')
+            trie.add('xiao')
+            trie.add('xylophone')
+
+            const expectation = [
+                new Suggestion(['xray']),
+                new Suggestion(['xiao']),
+                new Suggestion(['xylophone']),
+            ]
+            expect(trie.next.word['x'].completeWord(['x'])).toEqual(expectation)
+        })
+        it('returns a single suggestion consisting of a multi-word sequence', () => {
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
+            trie.add(['mischief', 'knight'])
+
+            const expectation = [
+                new Suggestion(['mischief', 'knight']),
+            ]
+            expect(trie.next.word['m'].completeWord(['m'])).toEqual(expectation)
+        })
+        it('returns multiple suggestions consisting of multi-word sequences', () => {
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
+            trie.add(['mischief', 'knight'])
+            trie.add(['mischief', 'knife'])
+
+            const expectation = [
+                new Suggestion(['mischief', 'knight']),
+                new Suggestion(['mischief', 'knife']),
+            ]
+            expect(trie.next.word['m'].completeWord(['m'])).toEqual(expectation)
         })
     })
 })

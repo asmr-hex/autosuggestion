@@ -129,22 +129,10 @@ export class Trie extends Node {
         // normalize input to be an array (if only given a string)
         if (!Array.isArray(input)) input = [input]
 
-        for (const match of this.matchPattern(input).filter(m => m.remainder.length !== 0).map(m => m.node)) {
-            suggestions = suggestions.concat(this.complete(match, input))
+        for (const match of this.matchPattern(input).filter(m => m.remainder.length === 0).map(m => m.node)) {
+            suggestions = suggestions.concat(match.completePattern(input))
         }
 
         return suggestions
-    }
-
-    private complete(node: Node, input: Word[]): Suggestion[] {
-        // TODO impl complete
-
-        // get next chars
-
-        // get next words
-
-        // get next lookups
-
-        return []
     }
 }

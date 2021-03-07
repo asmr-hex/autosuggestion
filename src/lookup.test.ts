@@ -1,5 +1,6 @@
 import { Dictionary } from './dictionary'
 import { Trie } from './trie'
+import { Suggestion } from './suggestion'
 import { LookupNode } from './lookup'
 
 
@@ -128,5 +129,32 @@ describe('LookupNode', () => {
                 { node: lastLookup, remainder: [] }
             ])
         })
+    })
+    describe('.completePattern(...)', () => {
+        it('returns a single suggestion, given a terminal leaf lookup node with one word', () => {
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('A')
+
+            const bTrie: Trie = dictionary.define('B', [['bub']])
+            trie.add([{ 'familiars': 'B' }])
+
+            const expectations = [
+                new Suggestion([{ 'familiars': [bTrie] }])
+            ]
+            expect(trie.next.lookup['familiars'].completePattern([])).toEqual(expectations)
+        })
+        it('returns a single suggestion, given a nonterminal lookup node with a following lookup', () => {
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('A')
+
+            const bTrie: Trie = dictionary.define('B', [['bub']])
+            trie.add([{ 'familiars': 'B' }, { 'unfamiliars': 'B' }])
+
+            const expectations = [
+                new Suggestion([{ 'familiars': [bTrie] }, { 'unfamiliars': [bTrie] }])
+            ]
+            expect(trie.next.lookup['familiars'].completePattern([])).toEqual(expectations)
+        })
+
     })
 })
