@@ -3,13 +3,35 @@ import { Word, Lookup, Pattern } from './types'
 import { Dictionary } from './dictionary'
 import { Trie } from './trie'
 import { Node } from './node'
+import { Suggestion } from './suggestion'
 import { LookupNode } from './lookup'
 import { simplify } from './test_util'
 
 
 describe('Trie', () => {
     describe('.add(...)', () => {
-        it.skip('normalizes the input and inserts the pattern', () => {
+        it.skip('normalizes the input and inserts the pattern', () => { })
+        it('adds two single-word patterns, where the first is a substring of the second', () => {
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
+            const expectations = [' ', 'a', 'r', 't', 'f', 'u', 'l']
+
+            trie.add(['art'])
+            trie.add(['artful'])
+            expect(simplify(trie)).toEqual(expectations)
+            expect(trie.next.word['a'].next.char['r'].next.char['t'].end).toBeTruthy()
+            expect(trie.next.word['a'].next.char['r'].next.char['t'].next.char['f'].next.char['u'].next.char['l'].end).toBeTruthy()
+        })
+        it('adds two single-word patterns, where the second is a substring of the first', () => {
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
+            const expectations = [' ', 'a', 'r', 't', 'f', 'u', 'l']
+
+            trie.add(['artful'])
+            trie.add(['art'])
+            expect(simplify(trie)).toEqual(expectations)
+            expect(trie.next.word['a'].next.char['r'].next.char['t'].end).toBeTruthy()
+            expect(trie.next.word['a'].next.char['r'].next.char['t'].next.char['f'].next.char['u'].next.char['l'].end).toBeTruthy()
         })
         it('adds multiple patterns which overlap on the first word', () => {
             const dictionary: Dictionary = new Dictionary()
@@ -224,6 +246,17 @@ describe('Trie', () => {
 
     describe('suggest(...)', () => {
         it.todo('works.')
+        it('adds two single-word patterns, where one is a substring of the other', () => {
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test', [['artful'], ['art']])
+
+            const expectations = [
+                new Suggestion(['art']),
+                new Suggestion(['artful']),
+            ]
+
+            expect(trie.suggest('a')).toEqual(expectations)
+        })
     })
 
 })

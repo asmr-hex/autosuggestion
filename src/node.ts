@@ -129,7 +129,6 @@ export class Node {
 
         const lastWord: Word = (tokens.pop() as Word) || ''
 
-
         // augment the last token with the next characters
         for (const char of Object.values(this.next.char)) {
             const augmentedTokens = [...tokens, `${lastWord}${char.value}`]

@@ -88,10 +88,8 @@ export class Trie extends Node {
     private _addChars(node: Node, word: Word, isLastWord: boolean = true): Node {
         if (word.length === 0) return node
         const c: string = word[0]
-        if (!node.next.char[c]) {
-            node.next.char[c] = new Node(c)
-            if (word.length === 1 && isLastWord) node.next.char[c].end = true
-        }
+        if (!node.next.char[c]) node.next.char[c] = new Node(c)
+        if (word.length === 1 && isLastWord) node.next.char[c].end = true
 
         // recurse until all has been consumed.
         if (word.length > 1) return this._addChars(node.next.char[c], word.slice(1), isLastWord)
