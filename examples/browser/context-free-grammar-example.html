@@ -1,0 +1,149 @@
+<html>
+    <head>
+        <title>CFG | Autosuggestion</title>
+        <style>
+         body {
+             margin: 15px;
+             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+         }
+         #root {
+             display: flex;
+             height: 100%;
+         }
+         #input-container {
+             display: flex;
+             flex-direction: column;
+             width: 50%;
+         }
+         #dictionary-container {
+             display: flex;
+             flex-direction: column;
+             width: 50%;
+         }
+         #dictionary-heading {
+             margin: 0px;
+             color: lightseagreen;
+         }
+         #terms {
+             display: flex;
+             flex-direction: column;
+             font-weight: bold;
+         }
+         .term {
+             color: cornflowerblue;
+         }
+         #text-box {
+             border: 0;
+             color: rosybrown;
+             font-weight: bold;
+             font-size: 14pt;
+         }
+         #text-box:focus {
+             outline: none;
+         }
+         #suggestions {
+             display: flex;
+             flex-direction: column;
+             font-weight: bold;
+         }
+         .suggestion {
+             color: palevioletred;
+         }
+        </style>
+    </head>
+    <body>
+
+        <div id='root'>
+            <div id='input-container'>
+                <input id='text-box' spellcheck='false' placeholder='type here...'>
+                <div id='suggestions'></div>
+            </div>
+            <div id='dictionary-container'>
+                <h3 id='dictionary-heading'>DICTIONARY</h3>
+                <div id='terms'></div>
+            </div>
+        </div>
+
+        <!-- import the autosuggestion library -->
+        <script type='text/javascript' src='../../dist/autosuggestion.umd.js'></script>
+
+        <!-- this is where the example Javascript begins -->
+        <script type='text/javascript'>
+         // instantiate new autosuggestion dictionary
+         const dictionary = new autosuggestion.Dictionary()
+
+         // define contexts
+         const nouns = [
+             'lump',
+             'desire',
+             'theory',
+             'pretention',
+             'ocean',
+             'mist',
+         ]
+         const articles = [
+             'a',
+             'an',
+             'the',
+             'their',
+             'its',
+             'his',
+             'hers',
+         ]
+         const verbs = [
+             'sobbed',
+             'oozed',
+             'settled',
+         ]
+         const prepositions = [
+             'under',
+             'along',
+             'beside',
+             'inside',
+             'in',
+             'around',
+         ]
+         const adjectives = [
+             'frothy',
+             'suspicious',
+             'tenacious',
+             'intellectual',
+             'green',
+             'smooth',
+         ]
+
+         // define parts of speech in their own contexts
+         dictionary.define('noun', nouns)
+         dictionary.define('verb', verbs)
+         dictionary.define('article', articles)
+         dictionary.define('adjective', adjectives)
+         dictionary.define('preposition', prepositions)
+
+         // define the context-free grammar of a sentence
+         const sentences = [
+             [{article: 'article'}, {noun: 'noun'}, {verb: 'verb'}, {preposition: 'preposition'}, {article: 'article'}, {adjective: 'adjective'}, {noun: 'noun'}]
+         ]
+
+         // define the sentences context-free grammar
+         dictionary.define('sentence', sentences)
+
+         // append a list of the terms in HTML so we can see what terms have been defined.
+         // document.getElementById('terms').innerHTML = terms.map(t => `<div class="term">${t}</div>`).join('\n')
+
+         // register an event listener for every keystroke in the input element
+         document.getElementById('text-box').addEventListener('keyup', e => {
+             // parse text (just split by white space)
+             const tokens = e.target.value.split(' ').filter(t => t !== '')
+             
+             // generate suggestions based on the input text
+             let suggestions = []
+             for (const suggestion of dictionary.suggest(tokens, ['sentence'])) {
+                 suggestions.push(`<div class="suggestion">${suggestion.simplified.join(' ')}</div>`)
+             }
+
+             // set all valid suggestions for the person's input text
+             document.getElementById('suggestions').innerHTML = suggestions.join('\n')
+         })
+        </script>
+    </body>
+</html>

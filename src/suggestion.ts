@@ -1,10 +1,5 @@
 import { Word, SuggestedPattern } from './types'
-
-export class SuggestedWord {
-    constructor() {
-
-    }
-}
+import { isWord } from './typegaurds'
 
 
 export class Suggestion {
@@ -12,7 +7,11 @@ export class Suggestion {
     private _simplified: Word[] = []
 
     constructor(public words: SuggestedPattern) {
-
+        this._simplified = words.map(w => {
+            return isWord(w)
+                ? w
+                : `[${Object.keys(w)[0]}]` // TODO make delimeters configurable
+        })
     }
 
     get simplified(): Word[] {
