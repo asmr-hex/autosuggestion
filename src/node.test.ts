@@ -1,12 +1,60 @@
-import { Node } from './node'
+import { Node, Match } from './node'
 import { Suggestion } from './suggestion'
 import { Trie } from './trie'
 import { Dictionary } from './dictionary'
 
 
 describe('Node', () => {
+    describe('.isLeaf()', () => {
+        it('returns false when there is one more char', () => {
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
+            trie.add(['ab'])
+
+            expect(trie.next.word['a'].isLeaf()).toBeFalsy()
+        })
+        it('returns false when there is one more word', () => {
+            const dictionary: Dictionary = new Dictionary()
+            const trie: Trie = dictionary.define('test')
+            trie.add(['a'])
+            trie.add(['a', 'thing'])
+
+            expect(trie.next.word['a'].isLeaf()).toBeFalsy()
+        })
+        it('returns false when there is one more lookup', () => {
+            const dictionary: Dictionary = new Dictionary()
+            dictionary.define('B', [['albatross']])
+            const trie: Trie = dictionary.define('test')
+            trie.add(['a'])
+            trie.add(['a', { B: 'B' }])
+
+            expect(trie.next.word['a'].isLeaf()).toBeFalsy()
+        })
+        it('returns false when there is no following char, word, or lookup', () => {
+            const dictionary: Dictionary = new Dictionary()
+            dictionary.define('B', [['albatross']])
+            const trie: Trie = dictionary.define('test')
+            trie.add(['a'])
+
+            expect(trie.next.word['a'].isLeaf()).toBeTruthy()
+        })
+    })
     describe('.matchPattern(...)', () => {
-        it.todo('works')
+        it('returns one match with a two level call-stack of nodes, given a full word match that is a subset of another match in a sub-context', () => {
+            const dictionary = new Dictionary()
+            const a = dictionary.define('A', [['a'], ['an']])
+            const b = dictionary.define('B', [['b'], ['bb']])
+            const c = dictionary.define('C', [[{ A: 'A' }, { B: 'B' }]])
+
+            const expectation: Match[] = [{
+                nodes: [
+                    a.next.word['a'],
+                    c.next.lookup['A'],
+                ],
+                remainder: []
+            }]
+            expect(c.next.lookup['A'].matchPattern(['a'])).toEqual(expectation)
+        })
     })
     describe('.matchWord(...)', () => {
         it('returns an empty array, given a single token whose first char does not match a pattern', () => {
@@ -49,7 +97,7 @@ describe('Node', () => {
             const tokens = ['sine']
             const matches = [
                 {
-                    node: trie.next.word['s'].next.char['i'].next.char['n'].next.char['e'],
+                    nodes: [trie.next.word['s'].next.char['i'].next.char['n'].next.char['e']],
                     remainder: [],
                 }
             ]
@@ -63,7 +111,7 @@ describe('Node', () => {
             const tokens = ['sine', 'wav']
             const matches = [
                 {
-                    node: trie.next.word['s'].next.char['i'].next.char['n'].next.char['e'].next.word['w'].next.char['a'].next.char['v'],
+                    nodes: [trie.next.word['s'].next.char['i'].next.char['n'].next.char['e'].next.word['w'].next.char['a'].next.char['v']],
                     remainder: [],
                 }
             ]
@@ -77,7 +125,7 @@ describe('Node', () => {
             const tokens = ['sine', 'wave']
             const matches = [
                 {
-                    node: trie.next.word['s'].next.char['i'].next.char['n'].next.char['e'].next.word['w'].next.char['a'].next.char['v'].next.char['e'],
+                    nodes: [trie.next.word['s'].next.char['i'].next.char['n'].next.char['e'].next.word['w'].next.char['a'].next.char['v'].next.char['e']],
                     remainder: [],
                 }
             ]
@@ -140,6 +188,33 @@ describe('Node', () => {
                 new Suggestion([{ 'unfamiliars': [bTrie] }]),
             ]
             expect(trie.completePattern([])).toEqual(expectations)
+        })
+        it('returns multiple suggestions, given a full-word match that is a substring of another match in a sub-context', () => {
+            const dictionary = new Dictionary()
+            const a = dictionary.define('A', [['a'], ['an']])
+            const b = dictionary.define('B', [['b'], ['bb']])
+            const c = dictionary.define('C', [[{ A: 'A' }, { B: 'B' }]])
+
+            const expectedSuggestion1: Suggestion[] = [
+                new Suggestion(['a']),
+                new Suggestion(['an']),
+            ]
+            const expectedSuggestion2: Suggestion[] = [
+                new Suggestion([{ B: [b] }]),
+            ]
+
+            const expectedMatch: Match[] = [{
+                nodes: [
+                    a.next.word['a'],
+                    c.next.lookup['A'],
+                ],
+                remainder: []
+            }]
+            const matches = c.next.lookup['A'].matchPattern(['a'])
+
+            expect(matches).toEqual(expectedMatch)
+            expect(matches[0].nodes[0].completePattern(['a'])).toEqual(expectedSuggestion1)
+            expect(matches[0].nodes[1].completePattern([])).toEqual(expectedSuggestion2)
         })
     })
     describe('.completeWord(...)', () => {

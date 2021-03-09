@@ -1,4 +1,4 @@
-import { Word, NextNodes, SuggestedPattern, Value } from './types'
+import { Word, NextNodes, NodeStack, SuggestedPattern, Value } from './types'
 import { Suggestion } from './suggestion'
 
 /**
@@ -9,7 +9,7 @@ import { Suggestion } from './suggestion'
  * a pattern such as `<some_lookup_context>s` to make a lookup result plural is not supported.
  */
 export interface Match {
-    node: Node
+    nodes: NodeStack
     remainder: Word[]
 }
 
@@ -20,6 +20,12 @@ export class Node {
     constructor(readonly value: Value) {
         this.end = false
         this.next = { char: {}, word: {}, lookup: {} }
+    }
+
+    public isLeaf(): boolean {
+        return Object.keys(this.next.char).length === 0
+            && Object.keys(this.next.word).length === 0
+            && Object.keys(this.next.lookup).length === 0
     }
 
     /**
@@ -78,7 +84,7 @@ export class Node {
         const node = word.matchChars(tokens[0])
         if (!node) return []
 
-        const match = { node, remainder: tokens.slice(1) }
+        const match = { nodes: [node], remainder: tokens.slice(1) }
 
         // (1) if there are no remainders keep searching. include match in results if it is a terminal.
         // (2) if there are no remainders, return this single match (regardless of if it isa terminal).
@@ -110,7 +116,7 @@ export class Node {
 
         // complete pattern in all next lookups
         for (const [alias, lookup] of Object.entries(this.next.lookup)) {
-            suggestions = suggestions.concat(lookup.completePattern(tokens))
+            suggestions = suggestions.concat(lookup.completePattern([...tokens, { [lookup.value as string]: lookup.contexts }]))
         }
 
         // complete pattern in all next words

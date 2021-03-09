@@ -24,17 +24,24 @@ export class LookupNode extends Node {
 
         for (const context of this.contexts) {
             for (const match of context.matchPattern(tokens)) {
+                // TODO PUSH THE CURRENT LOOKUP NODE TO THE END INSTEAD OF REPLACING
+                // get top-most node in call-stack (i.e. least deep context)
+                const node = match.nodes[match.nodes.length - 1]
 
                 // was the matched node the end of a pattern?
-                const isTerminalMatch: boolean = match.node.end
+                const isTerminalMatch: boolean = node.end
 
-                // if the sub-context matched on a terminal node, update the matched node to be this node
-                if (isTerminalMatch) match.node = this
+                // if the sub-context matched on a terminal node and it is a leaf node,
+                // pop it off the call-stack.
+                if (isTerminalMatch && node.isLeaf()) match.nodes.pop()
+
+                // push this lookup node as the top-most node in the stack
+                match.nodes.push(this)
 
                 // complete match in sub-context. (tokens exhuasted)
                 if (match.remainder.length === 0) {
                     // if the sub-context matched on a terminal node,
-                    matches.push(match) // TODO deal with hopping up contextual levels if a leaf is detected.
+                    matches.push(match)
                     continue
                 }
 
@@ -55,14 +62,5 @@ export class LookupNode extends Node {
         }
 
         return matches
-    }
-
-    public completePattern(tokens: SuggestedPattern): Suggestion[] {
-        let suggestions: Suggestion[] = []
-
-        // append this lookup context.
-        tokens.push({ [this.value as string]: this.contexts })
-
-        return super.completePattern(tokens)
     }
 }

@@ -127,8 +127,25 @@ export class Trie extends Node {
         // normalize input to be an array (if only given a string)
         if (!Array.isArray(input)) input = [input]
 
-        for (const match of this.matchPattern(input).filter(m => m.remainder.length === 0).map(m => m.node)) {
-            suggestions = suggestions.concat(match.completePattern(input))
+        // TODO this is an important note.
+        // there is a flaw with the algorithm i think.
+        // when matching patterns (specifically lookups), we need to keep track of all the
+        // sub-contexts that a zero-remainder matched node is nested within. this is because
+        // we need to be able to fill in all the completions at each parent sub-context after
+        // we've filled in the completions for the child sub-context.
+
+        for (const nodeStack of this.matchPattern(input).filter(m => m.remainder.length === 0).map(m => m.nodes)) {
+            let stackSuggestions: Suggestion[] = nodeStack[0].completePattern(input)
+            for (const node of nodeStack.slice(1)) {
+                for (const suggestion of node.completePattern([])) {
+                    let newStackSuggestions: Suggestion[] = []
+                    for (const stackSuggestion of stackSuggestions) {
+                        newStackSuggestions.push(stackSuggestion.concat(suggestion))
+                    }
+                    stackSuggestions = newStackSuggestions
+                }
+            }
+            suggestions = suggestions.concat(stackSuggestions)
         }
 
         return suggestions

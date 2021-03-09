@@ -257,6 +257,18 @@ describe('Trie', () => {
 
             expect(trie.suggest('a')).toEqual(expectations)
         })
+        it('returns multiple suggestions, given a full word match that is a subset of another match in a sub-context', () => {
+            const dictionary = new Dictionary()
+            const a = dictionary.define('A', [['a'], ['an']])
+            const b = dictionary.define('B', [['b'], ['bb']])
+            const c = dictionary.define('C', [[{ A: 'A' }, { B: 'B' }]])
+
+            const expectation: Suggestion[] = [
+                new Suggestion(['a', { B: [b] }]),
+                new Suggestion(['an', { B: [b] }]),
+            ]
+            expect(c.suggest('a')).toEqual(expectation)
+        })
     })
 
 })

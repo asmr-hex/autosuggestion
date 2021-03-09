@@ -67,7 +67,7 @@ describe('LookupNode', () => {
             const lookup = trie.next.lookup['b']
 
             expect(lookup.matchPattern(['big'])).toEqual([
-                { node: bTrie.next.word['b'].next.char['i'].next.char['g'], remainder: [] }
+                { nodes: [bTrie.next.word['b'].next.char['i'].next.char['g'], lookup], remainder: [] }
             ])
         })
         it('returns the lookup node as a match when a match has no remainder and is a complete match in the sub-context', () => {
@@ -78,7 +78,7 @@ describe('LookupNode', () => {
             trie.add({ 'b': 'B' })
             const lookup = trie.next.lookup['b']
 
-            expect(lookup.matchPattern(['big', 'bug'])).toEqual([{ node: lookup, remainder: [] }])
+            expect(lookup.matchPattern(['big', 'bug'])).toEqual([{ nodes: [lookup], remainder: [] }])
         })
         it('returns a match with a remainder, given tokens which match a sub-context but no other words in the current context (the match node is the lookup)', () => {
             const dictionary: Dictionary = new Dictionary()
@@ -89,7 +89,7 @@ describe('LookupNode', () => {
             const lookup = trie.next.lookup['b']
 
             expect(lookup.matchPattern(['big', 'bug', 'here'])).toEqual([
-                { node: lookup, remainder: ['here'] }
+                { nodes: [lookup], remainder: ['here'] }
             ])
         })
         it('returns a match on the current lookup node with no remainder, given a pattern which matches the first sub-contextual lookup', () => {
@@ -101,7 +101,7 @@ describe('LookupNode', () => {
             const lookup = trie.next.lookup['b']
 
             expect(lookup.matchPattern(['big', 'bug'])).toEqual([
-                { node: lookup, remainder: [] }
+                { nodes: [lookup], remainder: [] }
             ])
         })
         it('returns a match (a node from a nested context) with no remainder, given a pattern which matches a second sequential sub-contextual lookup', () => {
@@ -113,7 +113,7 @@ describe('LookupNode', () => {
             const lookup = trie.next.lookup['b']
 
             expect(lookup.matchPattern(['big', 'bug', 'b'])).toEqual([
-                { node: bTrie.next.word['b'], remainder: [] }
+                { nodes: [bTrie.next.word['b'], lookup.next.lookup['bb']], remainder: [] }
             ])
         })
         it('returns a match on the current lookup node with no remainder, given a pattern which matches multiple consecutive sub-contextual lookups', () => {
@@ -126,7 +126,7 @@ describe('LookupNode', () => {
             const lastLookup = trie.next.lookup['b'].next.lookup['bb']
 
             expect(firstLookup.matchPattern(['big', 'bug', 'big', 'bug'])).toEqual([
-                { node: lastLookup, remainder: [] }
+                { nodes: [lastLookup], remainder: [] }
             ])
         })
     })
@@ -138,8 +138,8 @@ describe('LookupNode', () => {
             const bTrie: Trie = dictionary.define('B', [['bub']])
             trie.add([{ 'familiars': 'B' }])
 
-            const expectations = [
-                new Suggestion([{ 'familiars': [bTrie] }])
+            const expectations: Suggestion[] = [
+                new Suggestion([])
             ]
             expect(trie.next.lookup['familiars'].completePattern([])).toEqual(expectations)
         })
@@ -151,7 +151,7 @@ describe('LookupNode', () => {
             trie.add([{ 'familiars': 'B' }, { 'unfamiliars': 'B' }])
 
             const expectations = [
-                new Suggestion([{ 'familiars': [bTrie] }, { 'unfamiliars': [bTrie] }])
+                new Suggestion([{ 'unfamiliars': [bTrie] }])
             ]
             expect(trie.next.lookup['familiars'].completePattern([])).toEqual(expectations)
         })

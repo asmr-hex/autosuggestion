@@ -38,5 +38,12 @@ export interface NextNodes {
     lookup: LookupMap
 }
 
+/**
+ * Defines a LIFO queue representing the call stack for nodes nested within
+ * lookup contexts. This is important for matching input to trie nodes and
+ * then deriving all possible completions at each level of the call stack.
+ */
+export type NodeStack = import('./node').Node[]
+
 export type Pattern = (Word | Lookup)[]
 export type SuggestedPattern = (Word | { [alias: string]: import('./node').Node[] })[]

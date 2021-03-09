@@ -7,14 +7,25 @@ export class Suggestion {
     private _simplified: Word[] = []
 
     constructor(public words: SuggestedPattern) {
-        this._simplified = words.map(w => {
-            return isWord(w)
-                ? w
-                : `[${Object.keys(w)[0]}]` // TODO make delimeters configurable
-        })
+        this._simplify()
     }
 
     get simplified(): Word[] {
         return this._simplified
+    }
+
+    public concat(suggestion: Suggestion): Suggestion {
+        this.words = this.words.concat(suggestion.words)
+        this._simplify()
+
+        return this
+    }
+
+    private _simplify() {
+        this._simplified = this.words.map(w => {
+            return isWord(w)
+                ? w
+                : `[${Object.keys(w)[0]}]` // TODO make delimeters configurable
+        })
     }
 }
