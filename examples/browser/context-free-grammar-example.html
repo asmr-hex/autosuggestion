@@ -94,7 +94,7 @@
         <!-- this is where the example Javascript begins -->
         <script type='text/javascript'>
          // instantiate new autosuggestion dictionary
-         const dictionary = new autosuggestion.Dictionary(2)
+         const dictionary = new autosuggestion.Dictionary(1)
 
          // define contexts
          contexts = {
@@ -159,7 +159,7 @@
          // register an event listener for every keystroke in the input element
          document.getElementById('text-box').addEventListener('keyup', e => {
              // parse text (just split by white space)
-             const tokens = e.target.value.split(' ').filter(t => t !== '')
+             let tokens = e.target.value.split(' ').filter(t => t !== '')
              
              // generate suggestions based on the input text
              let suggestions = []
