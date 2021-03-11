@@ -1,16 +1,26 @@
-<p align="center">
+<p align="center" style="margin-bottom:0px;">
     <img src="https://raw.githubusercontent.com/asmr-hex/autosuggestion/suggest/logo.svg?sanitize=true"
         height="130">
 </p>
+<h1 align="center" style="margin-top:0px;letter-spacing:0.2em;color:dimgrey">
+    autosuggestion
+</h1>
+<p align="center">
+    <a href="https://github.com/asmr-hex/autosuggestion/actions/workflows/ci.yml" alt="tests">
+        <img src="https://github.com/asmr-hex/autosuggestion/actions/workflows/ci.yml/badge.svg"/>
+    </a>
+    <a href="https://github.com/badges/shields/graphs/contributors" alt="documentation">
+        <img src="https://img.shields.io/static/v1?label=typedoc&message=docs&color=informational" />
+    </a>
+    <a href="https://badge.fury.io/js/autosuggestion">
+        <img src="https://badge.fury.io/js/autosuggestion.svg" alt="npm version">
+    </a>
+</p>
 
-# Autosuggestion
 Generates suggestions for text completion.
-![ci](https://github.com/asmr-hex/autosuggestion/actions/workflows/ci.yml/badge.svg)
-coverage badge
-documentation badge
 
 ## Install
-`Autosuggestion` can be used in Node.js and browsers.
+`autosuggestion` can be used in Node.js and browsers.
 ``` shell
 npm install autosuggestion
 ```
@@ -22,7 +32,7 @@ import { Dictionary } from 'autosuggestion'
 ```
 ``` javascript
 // CommonJS (CJS)
-const Autosuggestion = require('autosuggestion')
+const autosuggestion = require('autosuggestion')
 ```
 ``` html
 <!-- HTML Script Tag  -->
