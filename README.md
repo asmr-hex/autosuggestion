@@ -1,13 +1,13 @@
 <p align="center" style="margin-bottom:0px;">
-    <img src="https://raw.githubusercontent.com/asmr-hex/autosuggestion/suggest/logo.svg"
+    <img src="https://raw.githubusercontent.com/asmr-hex/autosuggestion/main/logo.svg"
         height="130">
 </p>
 <h1 align="center" style="margin-top:0px;letter-spacing:0.2em;color:dimgrey">
     autosuggestion
 </h1>
 <p align="center">
-    <a href="https://github.com/asmr-hex/autosuggestion/actions/workflows/test.yml" alt="tests">
-        <img src="https://github.com/asmr-hex/autosuggestion/actions/workflows/test.yml/badge.svg"/>
+    <a href="https://github.com/asmr-hex/autosuggestion/actions/workflows/tests.yml" alt="tests">
+        <img src="https://github.com/asmr-hex/autosuggestion/actions/workflows/tests.yml/badge.svg"/>
     </a>
     <a href="https://badge.fury.io/js/autosuggestion">
         <img src="https://img.shields.io/endpoint?url=https://api.keyvalue.xyz/437c1f94/coverage" alt="test coverage">
