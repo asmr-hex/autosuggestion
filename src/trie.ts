@@ -121,33 +121,53 @@ export class Trie extends Node {
 
     public remove(pattern: Pattern) { }
 
-    public suggest(input: Word | Word[]): Suggestion[] {
+    /**
+     * Given a sequence of input tokens, returns an array of suggested completions.
+     *
+     * @param input a sequence of input tokens.
+     * @param [lookahead=0] how many tokens to resolve in lookups which occur immediately after input.
+     */
+    public suggest(input: Word | Word[], lookahead: number = 0): Suggestion[] {
         let suggestions: Suggestion[] = []
 
         // normalize input to be an array (if only given a string)
         if (!Array.isArray(input)) input = [input]
 
-        // TODO this is an important note.
-        // there is a flaw with the algorithm i think.
-        // when matching patterns (specifically lookups), we need to keep track of all the
-        // sub-contexts that a zero-remainder matched node is nested within. this is because
-        // we need to be able to fill in all the completions at each parent sub-context after
-        // we've filled in the completions for the child sub-context.
+        // find matches with no remainder and extract their lookup-stacks
+        const stacks = this.matchPattern(input).filter(m => m.remainder.length === 0).map(m => m.nodes)
 
-        for (const nodeStack of this.matchPattern(input).filter(m => m.remainder.length === 0).map(m => m.nodes)) {
-            let stackSuggestions: Suggestion[] = nodeStack[0].completePattern(input)
-            for (const node of nodeStack.slice(1)) {
-                for (const suggestion of node.completePattern([])) {
-                    let newStackSuggestions: Suggestion[] = []
-                    for (const stackSuggestion of stackSuggestions) {
-                        newStackSuggestions.push(stackSuggestion.concat(suggestion))
-                    }
-                    stackSuggestions = newStackSuggestions
-                }
-            }
-            suggestions = suggestions.concat(stackSuggestions)
+        for (const stack of stacks) {
+            suggestions = suggestions.concat(this._unwind(stack, input, lookahead))
         }
 
         return suggestions
+    }
+
+    private _unwind(stack: Node[], input: Word[], lookahead: number = 0): Suggestion[] {
+        let suggestions: Suggestion[] = stack[0].completePattern([...input])
+
+        // essentially reshape the `suggestions` array s.t. each resulting array of
+        // suggestions from each subsequent node in the lookup-stack is concat'd.
+        for (const node of stack.slice(1)) {
+            for (const suggestion of node.completePattern([])) {
+                let tmp: Suggestion[] = []
+                for (const suggestion_i of suggestions) {
+                    tmp.push(suggestion_i.concat(suggestion))
+                }
+                suggestions = tmp
+            }
+        }
+
+        // return immediately if we don't require a lookahead.
+        if (lookahead === 0) return suggestions
+
+        // for each resulting suggestion, enforce a lookahead from the input offset
+        let resolvedSuggestions: Suggestion[] = []
+        for (const suggestion of suggestions) {
+            resolvedSuggestions = resolvedSuggestions
+                .concat(suggestion.resolveLookups(input, lookahead))
+        }
+
+        return resolvedSuggestions
     }
 }

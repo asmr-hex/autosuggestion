@@ -5,11 +5,9 @@ import { Suggestion } from './suggestion'
 
 
 export class Dictionary {
-    contexts: Map<Context, Trie>
+    public contexts: Map<Context, Trie> = new Map()
 
-    constructor() {
-        this.contexts = new Map()
-    }
+    constructor(public lookahead = 0) { }
 
     define(context: Context, patterns: Pattern[] = []): Trie {
         const trie: Trie = new Trie(this, patterns)
@@ -42,7 +40,7 @@ export class Dictionary {
         for (const context of contexts) {
             const trie = this.contexts.get(context)
             if (!trie) continue
-            suggestions = suggestions.concat(trie.suggest(tokens))
+            suggestions = suggestions.concat(trie.suggest(tokens, this.lookahead))
         }
 
         return suggestions
