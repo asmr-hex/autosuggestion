@@ -1,3 +1,5 @@
+import { Word, Lookup } from './types'
+
 
 export function isWord(i: any): i is Word {
     return typeof i === "string"

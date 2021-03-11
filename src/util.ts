@@ -1,3 +1,5 @@
+import { Word, Lookup, Pattern } from './types'
+
 import {
     isWord,
     isLookup,
