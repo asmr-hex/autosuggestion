@@ -18,6 +18,7 @@
     "prefix tree",
     "phrase completion"
   ],
+  "homepage": "https://asmr-hex.github.io/autosuggestion",
   "repository": {
     "type": "git",
     "url": "https://github.com/asmr-hex/autosuggestion.git"

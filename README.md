@@ -9,10 +9,10 @@
     <a href="https://github.com/asmr-hex/autosuggestion/actions/workflows/tests.yml" alt="tests">
         <img src="https://github.com/asmr-hex/autosuggestion/actions/workflows/tests.yml/badge.svg"/>
     </a>
-    <a href="https://badge.fury.io/js/autosuggestion">
+    <a href="https://asmr-hex.github.io/autosuggestion">
         <img src="https://img.shields.io/endpoint?url=https://api.keyvalue.xyz/437c1f94/coverage" alt="test coverage">
     </a>
-    <a href="https://github.com/badges/shields/graphs/contributors" alt="documentation">
+    <a href="https://asmr-hex.github.io/autosuggestion" alt="documentation">
         <img src="https://img.shields.io/static/v1?label=typedoc&message=docs&color=informational" />
     </a>
     <a href="https://badge.fury.io/js/autosuggestion">
@@ -42,6 +42,14 @@ const autosuggestion = require('autosuggestion')
 <script type='text/javascript' src='https://unpkg.com/autosuggestion'></script>
 ```
 
+## Getting Started
+For more details, see [documentation](https://asmr-hex.github.io/autosuggestion).
+
+###### Creating a `Dictionary`
+``` javascript
+const dictionary = new Dictionary()
+```
+
 ## Examples
 * [basic](https://asmr-hex.github.com/autosuggestion/examples/browser/index.html)
 * [context-free grammar](https://asmr-hex.github.io/autosuggestion/examples/browser/context-free-grammar-example.html)
@@ -60,14 +68,14 @@ eventually, consider using [semantic-release](https://github.com/semantic-releas
 - [x] automate test coverage reporting
 - [ ] get 100% test coverage
 - [ ] clean up and restructure code
-- [ ] setup ci for coverage report + doc generation + npm publishing (look into tags as a mechanism for publishing)
+- [x] setup ci for coverage report + doc generation + npm publishing (look into tags as a mechanism for publishing)
 - [x] generate badges with [shields.io](https://github.com/badges/shields)
 - [ ] include doc comments for typedoc
-- [ ] fill out readme
-- [ ] update package.json
+- [x] fill out readme
+- [x] update package.json
 - [x] update github
-- [ ] update package (use latest package from unpkg.org in browser examples)
-- [ ] host documentation
+- [x] update package (use latest package from unpkg.org in browser examples)
+- [x] host documentation
 #### Features
 - [ ] suggestion token annotations (context, etc.)
 - [ ] configuration (lookup brackets, etc.)

@@ -2743,10 +2743,10 @@ img {
 				<a href="https://github.com/asmr-hex/autosuggestion/actions/workflows/tests.yml" alt="tests">
 					<img src="https://github.com/asmr-hex/autosuggestion/actions/workflows/tests.yml/badge.svg"/>
 				</a>
-				<a href="https://badge.fury.io/js/autosuggestion">
+				<a href="https://asmr-hex.github.io/autosuggestion">
 					<img src="https://img.shields.io/endpoint?url=https://api.keyvalue.xyz/437c1f94/coverage" alt="test coverage">
 				</a>
-				<a href="https://github.com/badges/shields/graphs/contributors" alt="documentation">
+				<a href="https://asmr-hex.github.io/autosuggestion" alt="documentation">
 					<img src="https://img.shields.io/static/v1?label=typedoc&message=docs&color=informational" />
 				</a>
 				<a href="https://badge.fury.io/js/autosuggestion">
@@ -2771,6 +2771,15 @@ img {
 </code></pre>
 			<pre><code class="language-html"><span style="color: #90A4AE">&lt;!-- HTML Script Tag  --&gt;</span>
 <span style="color: #39ADB5">&lt;</span><span style="color: #E53935">script</span><span style="color: #39ADB5"> </span><span style="color: #9C3EDA">type</span><span style="color: #39ADB5">=</span><span style="color: #39ADB5">&#039;</span><span style="color: #91B859">text/javascript</span><span style="color: #39ADB5">&#039;</span><span style="color: #39ADB5"> </span><span style="color: #9C3EDA">src</span><span style="color: #39ADB5">=</span><span style="color: #39ADB5">&#039;</span><span style="color: #91B859">https://unpkg.com/autosuggestion</span><span style="color: #39ADB5">&#039;</span><span style="color: #39ADB5">&gt;&lt;/</span><span style="color: #E53935">script</span><span style="color: #39ADB5">&gt;</span>
+</code></pre>
+			<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+				<h2>Getting Started</h2>
+			</a>
+			<p>For more details, see <a href="https://asmr-hex.github.io/autosuggestion">documentation</a>.</p>
+			<a href="#creating-a-dictionary" id="creating-a-dictionary" style="color: inherit; text-decoration: none;">
+				<h6>Creating a <code>Dictionary</code></h6>
+			</a>
+			<pre><code class="language-javascript"><span style="color: #9C3EDA">const</span><span style="color: #90A4AE"> dictionary </span><span style="color: #39ADB5">=</span><span style="color: #90A4AE"> </span><span style="color: #39ADB5">new</span><span style="color: #90A4AE"> </span><span style="color: #6182B8">Dictionary</span><span style="color: #90A4AE">()</span>
 </code></pre>
 			<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
 				<h2>Examples</h2>
@@ -2799,14 +2808,14 @@ img {
 				<li><input checked="" disabled="" type="checkbox"> automate test coverage reporting</li>
 				<li><input disabled="" type="checkbox"> get 100% test coverage</li>
 				<li><input disabled="" type="checkbox"> clean up and restructure code</li>
-				<li><input disabled="" type="checkbox"> setup ci for coverage report + doc generation + npm publishing (look into tags as a mechanism for publishing)</li>
+				<li><input checked="" disabled="" type="checkbox"> setup ci for coverage report + doc generation + npm publishing (look into tags as a mechanism for publishing)</li>
 				<li><input checked="" disabled="" type="checkbox"> generate badges with <a href="https://github.com/badges/shields">shields.io</a></li>
 				<li><input disabled="" type="checkbox"> include doc comments for typedoc</li>
-				<li><input disabled="" type="checkbox"> fill out readme</li>
-				<li><input disabled="" type="checkbox"> update package.json</li>
+				<li><input checked="" disabled="" type="checkbox"> fill out readme</li>
+				<li><input checked="" disabled="" type="checkbox"> update package.json</li>
 				<li><input checked="" disabled="" type="checkbox"> update github</li>
-				<li><input disabled="" type="checkbox"> update package (use latest package from unpkg.org in browser examples)</li>
-				<li><input disabled="" type="checkbox"> host documentation
+				<li><input checked="" disabled="" type="checkbox"> update package (use latest package from unpkg.org in browser examples)</li>
+				<li><input checked="" disabled="" type="checkbox"> host documentation
 					<a href="#features" id="features" style="color: inherit; text-decoration: none;">
 						<h4>Features</h4>
 					</a>
@@ -2877,7 +2886,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Context<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/105bf17/src/types.ts#L3">types.ts:3</a></li>
+						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/039d8ab/src/types.ts#L3">types.ts:3</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2887,7 +2896,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Node<wbr>Stack<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/105bf17/src/types.ts#L46">types.ts:46</a></li>
+						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/039d8ab/src/types.ts#L46">types.ts:46</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -2904,7 +2913,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Pattern<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><a href="modules.html#word" class="tsd-signature-type" data-tsd-kind="Type alias">Word</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/lookup.html" class="tsd-signature-type" data-tsd-kind="Interface">Lookup</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/105bf17/src/types.ts#L48">types.ts:48</a></li>
+						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/039d8ab/src/types.ts#L48">types.ts:48</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2914,7 +2923,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Suggested<wbr>Pattern<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><a href="modules.html#word" class="tsd-signature-type" data-tsd-kind="Type alias">Word</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/105bf17/src/types.ts#L49">types.ts:49</a></li>
+						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/039d8ab/src/types.ts#L49">types.ts:49</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2924,7 +2933,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/105bf17/src/types.ts#L4">types.ts:4</a></li>
+						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/039d8ab/src/types.ts#L4">types.ts:4</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2934,7 +2943,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Word<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/105bf17/src/types.ts#L2">types.ts:2</a></li>
+						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/039d8ab/src/types.ts#L2">types.ts:2</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -2951,7 +2960,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/105bf17/src/suggestions.ts#L2">suggestions.ts:2</a></li>
+								<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/039d8ab/src/suggestions.ts#L2">suggestions.ts:2</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
