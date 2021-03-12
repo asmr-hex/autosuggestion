@@ -1,4 +1,4 @@
-name: generate test coverage
+name: coverage
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
           node-version: 15
       - run: npm install
       - run: npm test
-      - name: Generate Code Test Coverage
+      - name: generate test coverage
         uses: luk-schweizer/jest-code-coverage-badge-action@v1.0.0
         with:
           kvaas-key-url: 'https://api.keyvalue.xyz/437c1f94/coverage'

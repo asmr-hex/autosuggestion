@@ -3,7 +3,7 @@
   "author": "asmr.hex",
   "license": "GPLV3",
   "version": "1.1.1",
-  "description": "",
+  "description": "￼ ￼ Generates suggestions for text completion. ￼ ￼",
   "keywords": [
     "auto-suggest",
     "auto suggest",
@@ -34,7 +34,9 @@
     "test": "npx jest",
     "test:watch": "npx jest --watch",
     "docs": "npx typedoc",
-    "docs:watch": "npx typedoc --watch"
+    "docs:watch": "npx typedoc --watch",
+    "preversion": "npx jest",
+    "postversion": "git push && git push --tags"
   },
   "files": [
     "dist",
