@@ -44,6 +44,7 @@ const autosuggestion = require('autosuggestion')
 
 ## Examples
 * [basic](https://asmr-hex.github.com/autosuggestion/examples/browser/index.html)
+* [context-free grammar](https://asmr-hex.github.io/autosuggestion/examples/browser/context-free-grammar-example.html)
 
 list of live example pages
 brief section descriptions of each feature

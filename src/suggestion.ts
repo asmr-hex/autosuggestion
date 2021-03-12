@@ -68,7 +68,6 @@ export class Suggestion {
                     .splice(0, offsetTokens)
                     .splice(-1, this.tokens.slice(offset + 1))
 
-                console.log(suggestion)
                 // is the next token a word? if so, resolve
                 if (isWord(suggestion.tokens[offset])) {
                     suggestions = suggestions.concat(suggestion.resolveLookups(suggestion.tokens.slice(0, offset + 1), n - 1))
