@@ -43,7 +43,7 @@ const autosuggestion = require('autosuggestion')
 ```
 
 ## Examples
-* [basic](https://raw.githubusercontent.com/asmr-hex/autosuggestion/main/examples/browser/index.html)
+* [basic](https://asmr-hex.github.com/autosuggestion/examples/browser/index.html)
 
 list of live example pages
 brief section descriptions of each feature

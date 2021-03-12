@@ -1,0 +1,175 @@
+<html>
+    <head>
+        <title>CFG | Autosuggestion</title>
+        <style>
+         body {
+             margin: 15px;
+             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+         }
+         #root {
+             display: flex;
+             height: 100%;
+         }
+         #input-container {
+             display: flex;
+             flex-direction: column;
+             width: 50%;
+         }
+         #dictionary-container {
+             display: flex;
+             flex-direction: row;
+             flex-wrap: wrap;
+             width: 50%;
+         }
+         .context-container {
+             display: flex;
+             flex-direction: column;
+             width: 50%;
+         }
+         .dictionary-heading {
+             margin: 0px;
+             color: lightseagreen;
+         }
+         .terms {
+             display: flex;
+             flex-direction: column;
+             font-weight: bold;
+         }
+         .term {
+             color: cornflowerblue;
+         }
+         #text-box {
+             border: 0;
+             color: rosybrown;
+             font-weight: bold;
+             font-size: 14pt;
+         }
+         #text-box:focus {
+             outline: none;
+         }
+         #suggestions {
+             display: flex;
+             flex-direction: column;
+             font-weight: bold;
+         }
+         .suggestion {
+             color: palevioletred;
+         }
+        </style>
+    </head>
+    <body>
+
+        <div id='root'>
+            <div id='input-container'>
+                <input id='text-box' spellcheck='false' placeholder='type here...'>
+                <div id='suggestions'></div>
+            </div>
+            <div id='dictionary-container'>
+                <div class='context-container'>
+                    <h3 class='dictionary-heading'>NOUNS</h3>
+                    <div id='noun' class='terms'></div>
+                </div>
+                <div class='context-container'>
+                    <h3 class='dictionary-heading'>ARTICLES</h3>
+                    <div id='article' class='terms'></div>
+                </div>
+                <div class='context-container'>
+                    <h3 class='dictionary-heading'>VERBS</h3>
+                    <div id='verb' class='terms'></div>
+                </div>
+                <div class='context-container'>
+                    <h3 class='dictionary-heading'>PREPOSITIONS</h3>
+                    <div id='preposition' class='terms'></div>
+                </div>
+                <div class='context-container'>
+                    <h3 class='dictionary-heading'>ADJECTIVES</h3>
+                    <div id='adjective' class='terms'></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- import the autosuggestion library -->
+        <script type='text/javascript' src='../../dist/autosuggestion.umd.js'></script>
+
+        <!-- this is where the example Javascript begins -->
+        <script type='text/javascript'>
+         // instantiate new autosuggestion dictionary
+         const dictionary = new autosuggestion.Dictionary(1)
+
+         // define contexts
+         contexts = {
+             noun: [
+                 'lump',
+                 'desire',
+                 'theory',
+                 'pretension',
+                 'ocean',
+                 'mist',
+             ],
+             article: [
+                 'a',
+                 'an',
+                 'the',
+                 'their',
+                 'its',
+                 'his',
+                 'hers',
+             ],
+             verb: [
+                 'sobbed',
+                 'oozed',
+                 'settled',
+             ],
+             preposition: [
+                 'under',
+                 'along',
+                 'beside',
+                 'inside',
+                 'in',
+                 'around',
+             ],
+             adjective: [
+                 'frothy',
+                 'suspicious',
+                 'tenacious',
+                 'intellectual',
+                 'green',
+                 'smooth',
+             ]
+         }
+
+         
+         for (const [pos, words] of Object.entries(contexts)) {
+             // define parts of speech in their own contexts
+             dictionary.define(pos, words)
+
+             // append a list of the terms in HTML so we can see what terms have been defined.    
+             document.getElementById(pos).innerHTML = words.map(t => `<div class="term">${t}</div>`).join('\n')   
+         }
+
+         // define the context-free grammar of a sentence
+         const sentences = [
+             [{article: 'article'}, {noun: 'noun'}, {verb: 'verb'}, {preposition: 'preposition'}, {article: 'article'}, {adjective: 'adjective'}, {noun: 'noun'}]
+         ]
+
+         // define the sentences context-free grammar
+         dictionary.define('sentence', sentences)
+
+
+         // register an event listener for every keystroke in the input element
+         document.getElementById('text-box').addEventListener('keyup', e => {
+             // parse text (just split by white space)
+             let tokens = e.target.value.split(' ').filter(t => t !== '')
+             
+             // generate suggestions based on the input text
+             let suggestions = []
+             for (const suggestion of dictionary.suggest(tokens, ['sentence'])) {
+                 suggestions.push(`<div class="suggestion">${suggestion.simplified.join(' ')}</div>`)
+             }
+
+             // set all valid suggestions for the person's input text
+             document.getElementById('suggestions').innerHTML = suggestions.join('\n')
+         })
+        </script>
+    </body>
+</html>
