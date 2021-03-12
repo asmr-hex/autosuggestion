@@ -8,9 +8,6 @@
 # testing
 /coverage
 
-# docs
-/docs
-
 # production
 /dist
 /lib
