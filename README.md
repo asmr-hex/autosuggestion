@@ -46,6 +46,11 @@ const autosuggestion = require('autosuggestion')
 list of live example pages
 brief section descriptions of each feature
 
+## Releasing
+1. run `npm version major|minor|patch`
+2. create release on github manually (triggers a github workflow to publish tp npm)
+
+eventually, consider using [semantic-release](https://github.com/semantic-release/semantic-release)
 
 ## Todo
 #### General
