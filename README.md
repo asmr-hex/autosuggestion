@@ -47,18 +47,17 @@ list of live example pages
 brief section descriptions of each feature
 
 
-
 ## Todo
 #### General
-- [ ] automate test coverage reporting
+- [x] automate test coverage reporting
 - [ ] get 100% test coverage
 - [ ] clean up and restructure code
-- [ ] setup ci for coverage report + doc generation
-- [ ] generate badges with [shields.io](https://github.com/badges/shields)
+- [ ] setup ci for coverage report + doc generation + npm publishing (look into tags as a mechanism for publishing)
+- [x] generate badges with [shields.io](https://github.com/badges/shields)
 - [ ] include doc comments for typedoc
 - [ ] fill out readme
 - [ ] update package.json
-- [ ] update github
+- [x] update github
 - [ ] update package (use latest package from unpkg.org in browser examples)
 - [ ] host documentation
 #### Features
