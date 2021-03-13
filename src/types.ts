@@ -1,11 +1,14 @@
 
 export type Word = string
-export type Context = string
+export type ScopeName = string
+export type ScopeGroupName = string
 export type Value = string | null
 
 export interface Lookup {
-    [index: string]: Context | Context[]
+    [index: string]: ScopeGroupName | ScopeName[]
 }
+
+export type Term = Word | Lookup
 
 export interface CharMap {
     [index: string]: import('./node').Node

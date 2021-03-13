@@ -1,7 +1,17 @@
 import { Word, SuggestedPattern } from './types'
 import { isWord } from './typegaurds'
 
-
+/**
+ * <p align="center"> 
+ *   <img src="https://web.archive.org/web/20090729035015/http://www.geocities.com/pskashyap/floppy.gif">
+ *   <img src="https://web.archive.org/web/20090729035015/http://www.geocities.com/pskashyap/floppy.gif">
+ *   <img src="https://web.archive.org/web/20090729035015/http://www.geocities.com/pskashyap/floppy.gif">
+ * </p>
+ *
+ * A `Suggestion` represents a single result matching the input provided to [[Scope.suggest|suggest]].
+ * It consists of a sequence of [[Suggestion.tokens|tokens]] which form a suggested pattern.
+ * 
+ */
 export class Suggestion {
     public rank: number = 0
     private _simplified: Word[] = []

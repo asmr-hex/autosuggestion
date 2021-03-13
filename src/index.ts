@@ -1,8 +1,18 @@
-export * from './types'
+export type {
+    Pattern,
+    SuggestedPattern,
+    Term,
+    Lookup,
+    ScopeName,
+    ScopeGroupName,
+    NextNodes,
+} from './types'
 export { Dictionary } from './dictionary'
+export { Scope } from './scope'
+export { Node } from './node'
 export { Suggestion } from './suggestion'
 
-export { Trie } from './trie'
-export { Node } from './node'
+
+
 export { LookupNode } from './lookup'
 

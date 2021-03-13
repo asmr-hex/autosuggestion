@@ -1,6 +1,6 @@
 import { Node, Match } from './node'
 import { Suggestion } from './suggestion'
-import { Trie } from './trie'
+import { Scope } from './scope'
 import { Dictionary } from './dictionary'
 
 
@@ -8,14 +8,14 @@ describe('Node', () => {
     describe('.isLeaf()', () => {
         it('returns false when there is one more char', () => {
             const dictionary: Dictionary = new Dictionary()
-            const trie: Trie = dictionary.define('test')
+            const trie: Scope = dictionary.define('test')
             trie.add(['ab'])
 
             expect(trie.next.word['a'].isLeaf()).toBeFalsy()
         })
         it('returns false when there is one more word', () => {
             const dictionary: Dictionary = new Dictionary()
-            const trie: Trie = dictionary.define('test')
+            const trie: Scope = dictionary.define('test')
             trie.add(['a'])
             trie.add(['a', 'thing'])
 
@@ -24,7 +24,7 @@ describe('Node', () => {
         it('returns false when there is one more lookup', () => {
             const dictionary: Dictionary = new Dictionary()
             dictionary.define('B', [['albatross']])
-            const trie: Trie = dictionary.define('test')
+            const trie: Scope = dictionary.define('test')
             trie.add(['a'])
             trie.add(['a', { B: 'B' }])
 
@@ -33,7 +33,7 @@ describe('Node', () => {
         it('returns false when there is no following char, word, or lookup', () => {
             const dictionary: Dictionary = new Dictionary()
             dictionary.define('B', [['albatross']])
-            const trie: Trie = dictionary.define('test')
+            const trie: Scope = dictionary.define('test')
             trie.add(['a'])
 
             expect(trie.next.word['a'].isLeaf()).toBeTruthy()
@@ -59,7 +59,7 @@ describe('Node', () => {
     describe('.matchWord(...)', () => {
         it('returns an empty array, given a single token whose first char does not match a pattern', () => {
             const dictionary: Dictionary = new Dictionary()
-            const trie: Trie = dictionary.define('test')
+            const trie: Scope = dictionary.define('test')
             trie.add(['sine', 'wave'])
 
             const tokens = ['wave']
@@ -67,7 +67,7 @@ describe('Node', () => {
         })
         it('returns an empty array, given a single token does not match a next word in a pattern', () => {
             const dictionary: Dictionary = new Dictionary()
-            const trie: Trie = dictionary.define('test')
+            const trie: Scope = dictionary.define('test')
             trie.add(['sine', 'wave'])
 
             const tokens = ['sink']
@@ -75,7 +75,7 @@ describe('Node', () => {
         })
         it('returns an empty array, given two tokens, the first token not matching a pattern', () => {
             const dictionary: Dictionary = new Dictionary()
-            const trie: Trie = dictionary.define('test')
+            const trie: Scope = dictionary.define('test')
             trie.add(['sine', 'wave'])
 
             const tokens = ['sink', 'wave']
@@ -83,7 +83,7 @@ describe('Node', () => {
         })
         it('returns an empty array, given two tokens, the second token not matching a pattern', () => {
             const dictionary: Dictionary = new Dictionary()
-            const trie: Trie = dictionary.define('test')
+            const trie: Scope = dictionary.define('test')
             trie.add(['sine', 'wave'])
 
             const tokens = ['sine', 'wava']
@@ -91,7 +91,7 @@ describe('Node', () => {
         })
         it('returns a single Match with no remainder, given one token which matches a word in a pattern', () => {
             const dictionary: Dictionary = new Dictionary()
-            const trie: Trie = dictionary.define('test')
+            const trie: Scope = dictionary.define('test')
             trie.add(['sine', 'wave'])
 
             const tokens = ['sine']
@@ -105,7 +105,7 @@ describe('Node', () => {
         })
         it('returns a single Match with no remainder, given two tokens which partially match a single pattern', () => {
             const dictionary: Dictionary = new Dictionary()
-            const trie: Trie = dictionary.define('test')
+            const trie: Scope = dictionary.define('test')
             trie.add(['sine', 'wave'])
 
             const tokens = ['sine', 'wav']
@@ -119,7 +119,7 @@ describe('Node', () => {
         })
         it('returns a single Match with no remainder, given two tokens which completely match a single pattern', () => {
             const dictionary: Dictionary = new Dictionary()
-            const trie: Trie = dictionary.define('test')
+            const trie: Scope = dictionary.define('test')
             trie.add(['sine', 'wave'])
 
             const tokens = ['sine', 'wave']
@@ -140,7 +140,7 @@ describe('Node', () => {
         })
         it('returns null if the word does not match', () => {
             const dictionary: Dictionary = new Dictionary()
-            const trie: Trie = dictionary.define('test')
+            const trie: Scope = dictionary.define('test')
             trie.add('wavelet')
 
             const word = 'waves'
@@ -148,7 +148,7 @@ describe('Node', () => {
         })
         it('returns the last matching node given a word matching a portion of a pattern', () => {
             const dictionary: Dictionary = new Dictionary()
-            const trie: Trie = dictionary.define('test')
+            const trie: Scope = dictionary.define('test')
             trie.add('wavelet')
 
             const word = 'wave'
@@ -157,7 +157,7 @@ describe('Node', () => {
         })
         it('returns the last matching node given a word matching a complete pattern', () => {
             const dictionary: Dictionary = new Dictionary()
-            const trie: Trie = dictionary.define('test')
+            const trie: Scope = dictionary.define('test')
             trie.add('wave')
 
             const word = 'wave'
@@ -166,7 +166,7 @@ describe('Node', () => {
         })
         it('returns null given a word which is longer than the pattern (pattern is a substr of the provided word)', () => {
             const dictionary: Dictionary = new Dictionary()
-            const trie: Trie = dictionary.define('test')
+            const trie: Scope = dictionary.define('test')
             trie.add('wave')
 
             const word = 'wavelet'
@@ -177,15 +177,15 @@ describe('Node', () => {
         it.todo('returns a single suggestion, given a terminal leaf node')
         it('returns multiple suggestions, given a terminal leaf lookup node with one word', () => {
             const dictionary: Dictionary = new Dictionary()
-            const trie: Trie = dictionary.define('A')
+            const trie: Scope = dictionary.define('A')
 
-            const bTrie: Trie = dictionary.define('B', [['bub']])
+            const bScope: Scope = dictionary.define('B', [['bub']])
             trie.add([{ 'familiars': 'B' }])
             trie.add([{ 'unfamiliars': 'B' }])
 
             const expectations = [
-                new Suggestion([{ 'familiars': [bTrie] }]),
-                new Suggestion([{ 'unfamiliars': [bTrie] }]),
+                new Suggestion([{ 'familiars': [bScope] }]),
+                new Suggestion([{ 'unfamiliars': [bScope] }]),
             ]
             expect(trie.completePattern([])).toEqual(expectations)
         })
@@ -220,7 +220,7 @@ describe('Node', () => {
     describe('.completeWord(...)', () => {
         it('returns a single suggestion, given a terminal leaf node', () => {
             const dictionary: Dictionary = new Dictionary()
-            const trie: Trie = dictionary.define('test')
+            const trie: Scope = dictionary.define('test')
             trie.add('xi')
 
             const expectation = [new Suggestion(['xi'])]
@@ -228,7 +228,7 @@ describe('Node', () => {
         })
         it('returns a multiple suggestions, given a terminal node that is a substring of another suggestion', () => {
             const dictionary: Dictionary = new Dictionary()
-            const trie: Trie = dictionary.define('test')
+            const trie: Scope = dictionary.define('test')
             trie.add('xi')
             trie.add('xiao')
 
@@ -240,7 +240,7 @@ describe('Node', () => {
         })
         it('returns a multiple suggestions, given a node that branches into three suggestions', () => {
             const dictionary: Dictionary = new Dictionary()
-            const trie: Trie = dictionary.define('test')
+            const trie: Scope = dictionary.define('test')
             trie.add('xray')
             trie.add('xiao')
             trie.add('xylophone')
@@ -254,7 +254,7 @@ describe('Node', () => {
         })
         it('returns a single suggestion consisting of a multi-word sequence', () => {
             const dictionary: Dictionary = new Dictionary()
-            const trie: Trie = dictionary.define('test')
+            const trie: Scope = dictionary.define('test')
             trie.add(['mischief', 'knight'])
 
             const expectation = [
@@ -264,7 +264,7 @@ describe('Node', () => {
         })
         it('returns multiple suggestions consisting of multi-word sequences', () => {
             const dictionary: Dictionary = new Dictionary()
-            const trie: Trie = dictionary.define('test')
+            const trie: Scope = dictionary.define('test')
             trie.add(['mischief', 'knight'])
             trie.add(['mischief', 'knife'])
 

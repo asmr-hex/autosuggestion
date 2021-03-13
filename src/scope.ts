@@ -12,8 +12,27 @@ import { NormalizePattern } from './util'
 import { isWord, isLookup } from './typegaurds'
 
 
-export class Trie extends Node {
+/**
+ * <p align="center"> 
+ *   <img src="https://web.archive.org/web/20091026172159/http://geocities.com/simms_huijnen/Animations/osciloscope.gif">
+ *   <img src="https://web.archive.org/web/20091026172159/http://geocities.com/simms_huijnen/Animations/osciloscope.gif">
+ *   <img src="https://web.archive.org/web/20091026172159/http://geocities.com/simms_huijnen/Animations/osciloscope.gif">
+ * </p>
+ *
+ * A `Scope` is the top-level [[Node|node]] of a Phrase [Trie](https://en.wikipedia.org/wiki/Trie) --
+ * a trie of (trie)s which allows not only matching next characters, but also next words. This class
+ * exposes methods for adding, removing, and suggesting patterns.
+ *
+ * As a technical note, a `Scope`'s value is `null`, thus all patterns within a scope are
+ * accessible through the [[NextNodes.word|`Scope.next.word`]] or [[NextNodes.lookup|`Scope.next.lookup`]].
+ */
+export class Scope extends Node {
 
+    /**
+     * Constructs a `Scope`.
+     * @param dictionary typically a reference to the dictionary this scope is contained within.
+     * @param patterns an array of patterns to initially add to this scope.
+     */
     constructor(readonly dictionary: Dictionary, patterns: Pattern[] = []) {
         super(null)
 
@@ -21,6 +40,9 @@ export class Trie extends Node {
         for (const pattern of patterns) { this.add(pattern) }
     }
 
+    /**
+     * Adds a [[Term|term]] or [[Pattern|pattern]] to the scope.
+     */
     public add(pattern: Word | Lookup | Pattern) {
         let words = NormalizePattern(pattern)
 
@@ -41,6 +63,34 @@ export class Trie extends Node {
 
         this._add(node, words)
     }
+
+    /**
+     * Removes a [[Pattern|pattern]] from the scope.
+     */
+    public remove(pattern: Pattern) { }
+
+    /**
+     * Given a sequence of input tokens, returns an array of [[Suggestion|suggested completions]].
+     *
+     * @param input a sequence of input tokens.
+     * @param lookahead how many tokens to resolve in lookups which occur immediately after input. See [[Dictionary.lookahead|lookahead]].
+     */
+    public suggest(input: Word | Word[], lookahead: number = 0): Suggestion[] {
+        let suggestions: Suggestion[] = []
+
+        // normalize input to be an array (if only given a string)
+        if (!Array.isArray(input)) input = [input]
+
+        // find matches with no remainder and extract their lookup-stacks
+        const stacks = this.matchPattern(input).filter(m => m.remainder.length === 0).map(m => m.nodes)
+
+        for (const stack of stacks) {
+            suggestions = suggestions.concat(this._unwind(stack, input, lookahead))
+        }
+
+        return suggestions
+    }
+
 
     private _add(node: Node, pattern: Pattern, isLastWord: boolean = false) {
         if (pattern.length === 0) return
@@ -103,9 +153,9 @@ export class Trie extends Node {
             // normalize contexts to always be an array
             if (!Array.isArray(contexts)) contexts = [contexts]
 
-            let tries: Trie[] = []
+            let tries: Scope[] = []
             for (const context of contexts) {
-                const trie = this.dictionary.contexts.get(context)
+                const trie = this.dictionary.scopes.get(context)
                 if (!trie) throw new Error(`No such context '${context}'`) // TODO make this a type
                 tries.push(trie)
             }
@@ -117,30 +167,6 @@ export class Trie extends Node {
         }
 
         return nodes
-    }
-
-    public remove(pattern: Pattern) { }
-
-    /**
-     * Given a sequence of input tokens, returns an array of suggested completions.
-     *
-     * @param input a sequence of input tokens.
-     * @param [lookahead=0] how many tokens to resolve in lookups which occur immediately after input.
-     */
-    public suggest(input: Word | Word[], lookahead: number = 0): Suggestion[] {
-        let suggestions: Suggestion[] = []
-
-        // normalize input to be an array (if only given a string)
-        if (!Array.isArray(input)) input = [input]
-
-        // find matches with no remainder and extract their lookup-stacks
-        const stacks = this.matchPattern(input).filter(m => m.remainder.length === 0).map(m => m.nodes)
-
-        for (const stack of stacks) {
-            suggestions = suggestions.concat(this._unwind(stack, input, lookahead))
-        }
-
-        return suggestions
     }
 
     private _unwind(stack: Node[], input: Word[], lookahead: number = 0): Suggestion[] {

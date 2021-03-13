@@ -13,6 +13,13 @@ export interface Match {
     remainder: Word[]
 }
 
+/**
+ * <p align="center"> 
+ *   <img height="80px" src="https://web.archive.org/web/20090806155747/http://www.geocities.com/brerfoxkaleidscope/man_hampster_wheel_lg_wht.gif">
+ *   <img height="80px" src="https://web.archive.org/web/20090806155747/http://www.geocities.com/brerfoxkaleidscope/man_hampster_wheel_lg_wht.gif">
+ *   <img height="80px" src="https://web.archive.org/web/20090806155747/http://www.geocities.com/brerfoxkaleidscope/man_hampster_wheel_lg_wht.gif">
+ * </p>
+ */
 export class Node {
     end: boolean
     next: NextNodes

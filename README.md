@@ -24,7 +24,11 @@
     </a>
 </p>
 
-Generates suggestions for text completion.
+Generate dynamic, composable suggestions for text completion.
+* suggest words/phrases by scope.
+* define phrase-based suggestions.
+* define lookup-based suggestions (recursive).
+* dynamically add/remove suggestion patterns.
 
 ## Install
 `autosuggestion` can be used in Node.js and browsers.

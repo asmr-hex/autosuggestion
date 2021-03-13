@@ -2689,10 +2689,10 @@ img {
 					<a href="dictionary.html#constructor" class="tsd-kind-icon">constructor</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-class">
-					<a href="dictionary.html#contexts" class="tsd-kind-icon">contexts</a>
+					<a href="dictionary.html#lookahead" class="tsd-kind-icon">lookahead</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-class">
-					<a href="dictionary.html#lookahead" class="tsd-kind-icon">lookahead</a>
+					<a href="dictionary.html#scopes" class="tsd-kind-icon">scopes</a>
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="dictionary.html#add" class="tsd-kind-icon">add</a>
@@ -2715,45 +2715,89 @@ img {
 			<a href="node.html" class="tsd-kind-icon">Node</a>
 		</li>
 		<li class=" tsd-kind-class">
-			<a href="suggestion.html" class="tsd-kind-icon">Suggestion</a>
+			<a href="scope.html" class="tsd-kind-icon">Scope</a>
 		</li>
 		<li class=" tsd-kind-class">
-			<a href="trie.html" class="tsd-kind-icon">Trie</a>
-		</li>
-		<li class=" tsd-kind-interface">
-			<a href="../interfaces/charmap.html" class="tsd-kind-icon">Char<wbr>Map</a>
+			<a href="suggestion.html" class="tsd-kind-icon">Suggestion</a>
 		</li>
 		<li class=" tsd-kind-interface">
 			<a href="../interfaces/lookup.html" class="tsd-kind-icon">Lookup</a>
 		</li>
 		<li class=" tsd-kind-interface">
-			<a href="../interfaces/lookupmap.html" class="tsd-kind-icon">Lookup<wbr>Map</a>
-		</li>
-		<li class=" tsd-kind-interface">
 			<a href="../interfaces/nextnodes.html" class="tsd-kind-icon">Next<wbr>Nodes</a>
-		</li>
-		<li class=" tsd-kind-type-alias">
-			<a href="../modules.html#context" class="tsd-kind-icon">Context</a>
-		</li>
-		<li class=" tsd-kind-type-alias">
-			<a href="../modules.html#nodestack" class="tsd-kind-icon">Node<wbr>Stack</a>
 		</li>
 		<li class=" tsd-kind-type-alias">
 			<a href="../modules.html#pattern" class="tsd-kind-icon">Pattern</a>
 		</li>
 		<li class=" tsd-kind-type-alias">
+			<a href="../modules.html#scopegroupname" class="tsd-kind-icon">Scope<wbr>Group<wbr>Name</a>
+		</li>
+		<li class=" tsd-kind-type-alias">
+			<a href="../modules.html#scopename" class="tsd-kind-icon">Scope<wbr>Name</a>
+		</li>
+		<li class=" tsd-kind-type-alias">
 			<a href="../modules.html#suggestedpattern" class="tsd-kind-icon">Suggested<wbr>Pattern</a>
 		</li>
 		<li class=" tsd-kind-type-alias">
-			<a href="../modules.html#value" class="tsd-kind-icon">Value</a>
-		</li>
-		<li class=" tsd-kind-type-alias">
-			<a href="../modules.html#word" class="tsd-kind-icon">Word</a>
+			<a href="../modules.html#term" class="tsd-kind-icon">Term</a>
 		</li>
 	</ul>
 </nav>
 <div class="container container-main">
 	<div class="content-wrap">
+		<section class="tsd-panel tsd-comment">
+			<div class="tsd-comment tsd-typography">
+				<div class="lead">
+					<p align="center">
+						<img src="https://web.archive.org/web/20000828135714/http://www.geocities.com:80/HotSprings/4530/turnbook.gif">
+						<img src="https://web.archive.org/web/20000828135714/http://www.geocities.com:80/HotSprings/4530/turnbook.gif">
+						<img src="https://web.archive.org/web/20000828135714/http://www.geocities.com:80/HotSprings/4530/turnbook.gif">
+					</p>
+				</div>
+				<p>A <code>Dictionary</code> is used to define, add/remove patterns to/from, and generate
+					suggestions from suggestion scopes. As someone using this library, the
+					<code>Dictionary</code> class will likely be the primary interface between your code
+				and the functionality <code>autosuggestion</code> has to offer.</p>
+				<p>Generally speaking, a <code>Dictionary</code> is a collection of named [[Trie|scopes]] containing <a href="../modules.html#pattern">patterns</a>
+					(words or phrases) which can be easily matched with partially completed input patterns
+					<sup><a href="#fn-dictionary-1">1</a></sup>. For example,
+				if we want to generate suggestions based on a list of colors, we can</p>
+				<pre><code class="language-javascript"><span style="color: #90A4AE">// create a new dictionary</span>
+<span style="color: #9C3EDA">const</span><span style="color: #90A4AE"> myDictionary </span><span style="color: #39ADB5">=</span><span style="color: #90A4AE"> </span><span style="color: #39ADB5">new</span><span style="color: #90A4AE"> </span><span style="color: #6182B8">Dictionary</span><span style="color: #90A4AE">()</span>
+
+<span style="color: #90A4AE">// define a named context with some colors</span>
+<span style="color: #90A4AE">myDictionary</span><span style="color: #39ADB5">.</span><span style="color: #6182B8">define</span><span style="color: #90A4AE">(</span><span style="color: #39ADB5">&#039;</span><span style="color: #91B859">myColors</span><span style="color: #39ADB5">&#039;</span><span style="color: #39ADB5">,</span><span style="color: #90A4AE"> [</span><span style="color: #39ADB5">&#039;</span><span style="color: #91B859">red</span><span style="color: #39ADB5">&#039;</span><span style="color: #39ADB5">,</span><span style="color: #90A4AE"> </span><span style="color: #39ADB5">&#039;</span><span style="color: #91B859">rose</span><span style="color: #39ADB5">&#039;</span><span style="color: #39ADB5">,</span><span style="color: #90A4AE"> </span><span style="color: #39ADB5">&#039;</span><span style="color: #91B859">pink</span><span style="color: #39ADB5">&#039;</span><span style="color: #90A4AE">])</span>
+</code></pre>
+				<p>now, we can generate suggestions given input,</p>
+				<pre><code class="language-javascript"><span style="color: #9C3EDA">const</span><span style="color: #90A4AE"> inputText </span><span style="color: #39ADB5">=</span><span style="color: #90A4AE"> </span><span style="color: #39ADB5">&#039;</span><span style="color: #91B859">r</span><span style="color: #39ADB5">&#039;</span>
+
+<span style="color: #90A4AE">// match input text with potential completions in the &#039;myColors&#039; context</span>
+<span style="color: #9C3EDA">const</span><span style="color: #90A4AE"> colorSuggestions </span><span style="color: #39ADB5">=</span><span style="color: #90A4AE"> myDictionary</span><span style="color: #39ADB5">.</span><span style="color: #6182B8">suggest</span><span style="color: #90A4AE">(inputText</span><span style="color: #39ADB5">,</span><span style="color: #90A4AE"> </span><span style="color: #39ADB5">&#039;</span><span style="color: #91B859">myColors</span><span style="color: #39ADB5">&#039;</span><span style="color: #90A4AE">)</span>
+<span style="color: #90A4AE">// outputs: red, rose</span>
+</code></pre>
+				<p align="center">
+					<img height="50px" src=" https://web.archive.org/web/20091020080355/http://hk.geocities.com/fatkeehk1/mov-book.gif">
+					<img height="50px" src=" https://web.archive.org/web/20091020080355/http://hk.geocities.com/fatkeehk1/mov-book.gif">
+					<img height="50px" src=" https://web.archive.org/web/20091020080355/http://hk.geocities.com/fatkeehk1/mov-book.gif">
+				</p>
+				<p>If we don&#39;t know all the patterns for a scope upfront, we can dynamically add,</p>
+				<pre><code class="language-javascript"><span style="color: #90A4AE">myDictionary</span><span style="color: #39ADB5">.</span><span style="color: #6182B8">add</span><span style="color: #90A4AE">(</span><span style="color: #39ADB5">&#039;</span><span style="color: #91B859">myColors</span><span style="color: #39ADB5">&#039;</span><span style="color: #39ADB5">,</span><span style="color: #90A4AE"> [</span><span style="color: #39ADB5">&#039;</span><span style="color: #91B859">salmon</span><span style="color: #39ADB5">&#039;</span><span style="color: #39ADB5">,</span><span style="color: #90A4AE"> </span><span style="color: #39ADB5">&#039;</span><span style="color: #91B859">violet</span><span style="color: #39ADB5">&#039;</span><span style="color: #39ADB5">,</span><span style="color: #90A4AE"> </span><span style="color: #39ADB5">&#039;</span><span style="color: #91B859">avocado</span><span style="color: #39ADB5">&#039;</span><span style="color: #90A4AE">])</span>
+</code></pre>
+				<p>or remove,</p>
+				<pre><code class="language-javascript"><span style="color: #90A4AE">myDictionary</span><span style="color: #39ADB5">.</span><span style="color: #6182B8">remove</span><span style="color: #90A4AE">(</span><span style="color: #39ADB5">&#039;</span><span style="color: #91B859">myColors</span><span style="color: #39ADB5">&#039;</span><span style="color: #39ADB5">,</span><span style="color: #90A4AE"> [</span><span style="color: #39ADB5">&#039;</span><span style="color: #91B859">red</span><span style="color: #39ADB5">&#039;</span><span style="color: #39ADB5">,</span><span style="color: #90A4AE"> </span><span style="color: #39ADB5">&#039;</span><span style="color: #91B859">salmon</span><span style="color: #39ADB5">&#039;</span><span style="color: #90A4AE">])</span>
+</code></pre>
+				<hr>
+				<div style="font-style:italic;font-size:small">
+					<p id="fn-dictionary-1">
+						[1] Each named scope is a special type of <a href="https://en.wikipedia.org/wiki/Trie">trie</a>
+						indexed by a string-valued name. What makes this type of trie special is that each node not
+						only points to the set of next character candidates, but also points to the set of next
+						word candidates. This makes it, essentially, a trie of tries allowing us to perform phrase-based
+						matches in addition to word-based matches.
+					</p>
+				</div>
+			</div>
+		</section>
 		<section class="tsd-panel tsd-hierarchy">
 			<h3>Hierarchy</h3>
 			<ul class="tsd-hierarchy">
@@ -2775,8 +2819,8 @@ img {
 					<section class="tsd-index-section ">
 						<h3>Properties</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-property tsd-parent-kind-class"><a href="dictionary.html#contexts" class="tsd-kind-icon">contexts</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-class"><a href="dictionary.html#lookahead" class="tsd-kind-icon">lookahead</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-class"><a href="dictionary.html#scopes" class="tsd-kind-icon">scopes</a></li>
 						</ul>
 					</section>
 					<section class="tsd-index-section ">
@@ -2803,13 +2847,21 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/0ea28c2/src/dictionary.ts#L8">dictionary.ts:8</a></li>
+								<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/108b63c/src/dictionary.ts#L88">dictionary.ts:88</a></li>
 							</ul>
 						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Constructs a <code>Dictionary</code>.</p>
+							</div>
+						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
 								<h5>lookahead: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>sets <a href="dictionary.html#lookahead">lookahead</a> parameter.</p>
+								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <a href="dictionary.html" class="tsd-signature-type" data-tsd-kind="Class">Dictionary</a></h4>
@@ -2820,21 +2872,45 @@ img {
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Properties</h2>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-				<a name="contexts" class="tsd-anchor"></a>
-				<h3>contexts</h3>
-				<div class="tsd-signature tsd-kind-icon">contexts<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="trie.html" class="tsd-signature-type" data-tsd-kind="Class">Trie</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/0ea28c2/src/dictionary.ts#L8">dictionary.ts:8</a></li>
-					</ul>
-				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 				<a name="lookahead" class="tsd-anchor"></a>
 				<h3>lookahead</h3>
 				<div class="tsd-signature tsd-kind-icon">lookahead<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
 				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/108b63c/src/dictionary.ts#L88">dictionary.ts:88</a></li>
+					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Configures how many consecutive <a href="../interfaces/lookup.html">lookups</a> to resolve given a
+						suggestion with a lookup <a href="../modules.html#term">term</a> which immediately follows the input pattern.</p>
+					</div>
+					<p>For example, if there exists the following pattern</p>
+					<pre><code class="language-javascript"><span style="color: #90A4AE">// assume the scopes for the &#039;color&#039;, &#039;size&#039;, &amp; &#039;shape&#039; scope groups have been defined.</span>
+<span style="color: #90A4AE">one two </span><span style="color: #39ADB5">&lt;</span><span style="color: #90A4AE">color</span><span style="color: #39ADB5">&gt;</span><span style="color: #90A4AE"> </span><span style="color: #39ADB5">&lt;</span><span style="color: #E53935">size</span><span style="color: #39ADB5">&gt;</span><span style="color: #90A4AE"> </span><span style="color: #39ADB5">&lt;</span><span style="color: #E53935">shape</span><span style="color: #39ADB5">&gt;</span>
+</code></pre>
+					<p>then, given an input of <code>[&#39;one&#39;, &#39;two&#39;]</code> &amp; <code>lookahead=2</code>, the resulting suggestions would be,</p>
+					<pre><code class="language-javascript"><span style="color: #90A4AE">one two green big </span><span style="color: #39ADB5">&lt;</span><span style="color: #90A4AE">shape</span><span style="color: #39ADB5">&gt;</span>
+<span style="color: #90A4AE">one two red big </span><span style="color: #39ADB5">&lt;</span><span style="color: #90A4AE">shape</span><span style="color: #39ADB5">&gt;</span>
+<span style="color: #90A4AE">one two green small </span><span style="color: #39ADB5">&lt;</span><span style="color: #90A4AE">shape</span><span style="color: #39ADB5">&gt;</span>
+<span style="color: #39ADB5">...</span>
+</code></pre>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+				<a name="scopes" class="tsd-anchor"></a>
+				<h3>scopes</h3>
+				<div class="tsd-signature tsd-kind-icon">scopes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="scope.html" class="tsd-signature-type" data-tsd-kind="Class">Scope</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/108b63c/src/dictionary.ts#L69">dictionary.ts:69</a></li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A map of scope names to corresponding scopes.</p>
+					</div>
+				</div>
 			</section>
 		</section>
 		<section class="tsd-panel-group tsd-member-group ">
@@ -2843,22 +2919,33 @@ img {
 				<a name="add" class="tsd-anchor"></a>
 				<h3>add</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">add<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, patterns<span class="tsd-signature-symbol">: </span><a href="../modules.html#pattern" class="tsd-signature-type" data-tsd-kind="Type alias">Pattern</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					<li class="tsd-signature tsd-kind-icon">add<span class="tsd-signature-symbol">(</span>scopeName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, patterns<span class="tsd-signature-symbol">: </span><a href="../modules.html#pattern" class="tsd-signature-type" data-tsd-kind="Type alias">Pattern</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/0ea28c2/src/dictionary.ts#L18">dictionary.ts:18</a></li>
+								<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/108b63c/src/dictionary.ts#L114">dictionary.ts:114</a></li>
 							</ul>
 						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Adds patterns to an existing scope.</p>
+							</div>
+						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
-								<h5>context: <span class="tsd-signature-type">string</span></h5>
+								<h5>scopeName: <span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>an existing scope name.</p>
+								</div>
 							</li>
 							<li>
 								<h5>patterns: <a href="../modules.html#pattern" class="tsd-signature-type" data-tsd-kind="Type alias">Pattern</a><span class="tsd-signature-symbol">[]</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>array of patterns to add.</p>
+								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -2869,25 +2956,36 @@ img {
 				<a name="define" class="tsd-anchor"></a>
 				<h3>define</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">define<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, patterns<span class="tsd-signature-symbol">?: </span><a href="../modules.html#pattern" class="tsd-signature-type" data-tsd-kind="Type alias">Pattern</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="trie.html" class="tsd-signature-type" data-tsd-kind="Class">Trie</a></li>
+					<li class="tsd-signature tsd-kind-icon">define<span class="tsd-signature-symbol">(</span>scopeName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, patterns<span class="tsd-signature-symbol">?: </span><a href="../modules.html#pattern" class="tsd-signature-type" data-tsd-kind="Type alias">Pattern</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="scope.html" class="tsd-signature-type" data-tsd-kind="Class">Scope</a></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/0ea28c2/src/dictionary.ts#L12">dictionary.ts:12</a></li>
+								<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/108b63c/src/dictionary.ts#L103">dictionary.ts:103</a></li>
 							</ul>
 						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Defines a new named scope and populates it with optionally provided patterns.</p>
+							</div>
+						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
-								<h5>context: <span class="tsd-signature-type">string</span></h5>
+								<h5>scopeName: <span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>the new scope name.</p>
+								</div>
 							</li>
 							<li>
 								<h5>patterns: <a href="../modules.html#pattern" class="tsd-signature-type" data-tsd-kind="Type alias">Pattern</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = ...</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>optional initial scope patterns.</p>
+								</div>
 							</li>
 						</ul>
-						<h4 class="tsd-returns-title">Returns <a href="trie.html" class="tsd-signature-type" data-tsd-kind="Class">Trie</a></h4>
+						<h4 class="tsd-returns-title">Returns <a href="scope.html" class="tsd-signature-type" data-tsd-kind="Class">Scope</a></h4>
 					</li>
 				</ul>
 			</section>
@@ -2895,22 +2993,33 @@ img {
 				<a name="remove" class="tsd-anchor"></a>
 				<h3>remove</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">remove<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, patterns<span class="tsd-signature-symbol">: </span><a href="../modules.html#pattern" class="tsd-signature-type" data-tsd-kind="Type alias">Pattern</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					<li class="tsd-signature tsd-kind-icon">remove<span class="tsd-signature-symbol">(</span>scopeName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, patterns<span class="tsd-signature-symbol">: </span><a href="../modules.html#pattern" class="tsd-signature-type" data-tsd-kind="Type alias">Pattern</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/0ea28c2/src/dictionary.ts#L27">dictionary.ts:27</a></li>
+								<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/108b63c/src/dictionary.ts#L128">dictionary.ts:128</a></li>
 							</ul>
 						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Removes patterns from an existing scope.</p>
+							</div>
+						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
-								<h5>context: <span class="tsd-signature-type">string</span></h5>
+								<h5>scopeName: <span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>an existing scope name.</p>
+								</div>
 							</li>
 							<li>
 								<h5>patterns: <a href="../modules.html#pattern" class="tsd-signature-type" data-tsd-kind="Type alias">Pattern</a><span class="tsd-signature-symbol">[]</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>array of patterns to remove.</p>
+								</div>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -2921,22 +3030,34 @@ img {
 				<a name="suggest" class="tsd-anchor"></a>
 				<h3>suggest</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-					<li class="tsd-signature tsd-kind-icon">suggest<span class="tsd-signature-symbol">(</span>tokens<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, contexts<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="suggestion.html" class="tsd-signature-type" data-tsd-kind="Class">Suggestion</a><span class="tsd-signature-symbol">[]</span></li>
+					<li class="tsd-signature tsd-kind-icon">suggest<span class="tsd-signature-symbol">(</span>tokens<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, scopeNames<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="suggestion.html" class="tsd-signature-type" data-tsd-kind="Class">Suggestion</a><span class="tsd-signature-symbol">[]</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/0ea28c2/src/dictionary.ts#L36">dictionary.ts:36</a></li>
+								<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/108b63c/src/dictionary.ts#L148">dictionary.ts:148</a></li>
 							</ul>
 						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Generates suggestions from specified scopes given an array of input tokens.</p>
+							</div>
+							<p>This method expects that the input tokens have already been tokenized by the
+								calling code. In particular, multi-word inputs, which are expected to be matched
+								against phrase-based patterns which have been added to a scope, must be broken up
+							into a array of words (rather than just an raw string with words separated by spaces).</p>
+						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
 								<h5>tokens: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>a single input word token or array of input word tokens.</p>
+								</div>
 							</li>
 							<li>
-								<h5>contexts: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = ...</span></h5>
+								<h5>scopeNames: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = ...</span></h5>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <a href="suggestion.html" class="tsd-signature-type" data-tsd-kind="Class">Suggestion</a><span class="tsd-signature-symbol">[]</span></h4>

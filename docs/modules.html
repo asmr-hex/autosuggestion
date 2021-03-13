@@ -2692,40 +2692,31 @@ img {
 			<a href="classes/node.html" class="tsd-kind-icon">Node</a>
 		</li>
 		<li class=" tsd-kind-class">
-			<a href="classes/suggestion.html" class="tsd-kind-icon">Suggestion</a>
+			<a href="classes/scope.html" class="tsd-kind-icon">Scope</a>
 		</li>
 		<li class=" tsd-kind-class">
-			<a href="classes/trie.html" class="tsd-kind-icon">Trie</a>
-		</li>
-		<li class=" tsd-kind-interface">
-			<a href="interfaces/charmap.html" class="tsd-kind-icon">Char<wbr>Map</a>
+			<a href="classes/suggestion.html" class="tsd-kind-icon">Suggestion</a>
 		</li>
 		<li class=" tsd-kind-interface">
 			<a href="interfaces/lookup.html" class="tsd-kind-icon">Lookup</a>
 		</li>
 		<li class=" tsd-kind-interface">
-			<a href="interfaces/lookupmap.html" class="tsd-kind-icon">Lookup<wbr>Map</a>
-		</li>
-		<li class=" tsd-kind-interface">
 			<a href="interfaces/nextnodes.html" class="tsd-kind-icon">Next<wbr>Nodes</a>
-		</li>
-		<li class=" tsd-kind-type-alias">
-			<a href="modules.html#context" class="tsd-kind-icon">Context</a>
-		</li>
-		<li class=" tsd-kind-type-alias">
-			<a href="modules.html#nodestack" class="tsd-kind-icon">Node<wbr>Stack</a>
 		</li>
 		<li class=" tsd-kind-type-alias">
 			<a href="modules.html#pattern" class="tsd-kind-icon">Pattern</a>
 		</li>
 		<li class=" tsd-kind-type-alias">
+			<a href="modules.html#scopegroupname" class="tsd-kind-icon">Scope<wbr>Group<wbr>Name</a>
+		</li>
+		<li class=" tsd-kind-type-alias">
+			<a href="modules.html#scopename" class="tsd-kind-icon">Scope<wbr>Name</a>
+		</li>
+		<li class=" tsd-kind-type-alias">
 			<a href="modules.html#suggestedpattern" class="tsd-kind-icon">Suggested<wbr>Pattern</a>
 		</li>
 		<li class=" tsd-kind-type-alias">
-			<a href="modules.html#value" class="tsd-kind-icon">Value</a>
-		</li>
-		<li class=" tsd-kind-type-alias">
-			<a href="modules.html#word" class="tsd-kind-icon">Word</a>
+			<a href="modules.html#term" class="tsd-kind-icon">Term</a>
 		</li>
 	</ul>
 </nav>
@@ -2757,7 +2748,13 @@ img {
 					<img src="https://badge.fury.io/js/autosuggestion.svg" alt="npm version">
 				</a>
 			</p>
-			<p>Generates suggestions for text completion.</p>
+			<p>Generate dynamic, composable suggestions for text completion.</p>
+			<ul>
+				<li>suggest words/phrases by scope.</li>
+				<li>define phrase-based suggestions.</li>
+				<li>define lookup-based suggestions (recursive).</li>
+				<li>dynamically add/remove suggestion patterns.</li>
+			</ul>
 			<a href="#install" id="install" style="color: inherit; text-decoration: none;">
 				<h2>Install</h2>
 			</a>
@@ -2849,28 +2846,25 @@ img {
 							<li class="tsd-kind-class"><a href="classes/dictionary.html" class="tsd-kind-icon">Dictionary</a></li>
 							<li class="tsd-kind-class"><a href="classes/lookupnode.html" class="tsd-kind-icon">Lookup<wbr>Node</a></li>
 							<li class="tsd-kind-class"><a href="classes/node.html" class="tsd-kind-icon">Node</a></li>
+							<li class="tsd-kind-class"><a href="classes/scope.html" class="tsd-kind-icon">Scope</a></li>
 							<li class="tsd-kind-class"><a href="classes/suggestion.html" class="tsd-kind-icon">Suggestion</a></li>
-							<li class="tsd-kind-class"><a href="classes/trie.html" class="tsd-kind-icon">Trie</a></li>
 						</ul>
 					</section>
 					<section class="tsd-index-section ">
 						<h3>Interfaces</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-interface"><a href="interfaces/charmap.html" class="tsd-kind-icon">Char<wbr>Map</a></li>
 							<li class="tsd-kind-interface"><a href="interfaces/lookup.html" class="tsd-kind-icon">Lookup</a></li>
-							<li class="tsd-kind-interface"><a href="interfaces/lookupmap.html" class="tsd-kind-icon">Lookup<wbr>Map</a></li>
 							<li class="tsd-kind-interface"><a href="interfaces/nextnodes.html" class="tsd-kind-icon">Next<wbr>Nodes</a></li>
 						</ul>
 					</section>
 					<section class="tsd-index-section ">
 						<h3>Type aliases</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-type-alias"><a href="modules.html#context" class="tsd-kind-icon">Context</a></li>
-							<li class="tsd-kind-type-alias"><a href="modules.html#nodestack" class="tsd-kind-icon">Node<wbr>Stack</a></li>
 							<li class="tsd-kind-type-alias"><a href="modules.html#pattern" class="tsd-kind-icon">Pattern</a></li>
+							<li class="tsd-kind-type-alias"><a href="modules.html#scopegroupname" class="tsd-kind-icon">Scope<wbr>Group<wbr>Name</a></li>
+							<li class="tsd-kind-type-alias"><a href="modules.html#scopename" class="tsd-kind-icon">Scope<wbr>Name</a></li>
 							<li class="tsd-kind-type-alias"><a href="modules.html#suggestedpattern" class="tsd-kind-icon">Suggested<wbr>Pattern</a></li>
-							<li class="tsd-kind-type-alias"><a href="modules.html#value" class="tsd-kind-icon">Value</a></li>
-							<li class="tsd-kind-type-alias"><a href="modules.html#word" class="tsd-kind-icon">Word</a></li>
+							<li class="tsd-kind-type-alias"><a href="modules.html#term" class="tsd-kind-icon">Term</a></li>
 						</ul>
 					</section>
 				</div>
@@ -2879,69 +2873,52 @@ img {
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Type aliases</h2>
 			<section class="tsd-panel tsd-member tsd-kind-type-alias">
-				<a name="context" class="tsd-anchor"></a>
-				<h3>Context</h3>
-				<div class="tsd-signature tsd-kind-icon">Context<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/0ea28c2/src/types.ts#L3">types.ts:3</a></li>
-					</ul>
-				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-type-alias">
-				<a name="nodestack" class="tsd-anchor"></a>
-				<h3>Node<wbr>Stack</h3>
-				<div class="tsd-signature tsd-kind-icon">Node<wbr>Stack<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Node</span><span class="tsd-signature-symbol">[]</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/0ea28c2/src/types.ts#L46">types.ts:46</a></li>
-					</ul>
-				</aside>
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Defines a LIFO queue representing the call stack for nodes nested within
-							lookup contexts. This is important for matching input to trie nodes and
-						then deriving all possible completions at each level of the call stack.</p>
-					</div>
-				</div>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-type-alias">
 				<a name="pattern" class="tsd-anchor"></a>
 				<h3>Pattern</h3>
-				<div class="tsd-signature tsd-kind-icon">Pattern<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><a href="modules.html#word" class="tsd-signature-type" data-tsd-kind="Type alias">Word</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/lookup.html" class="tsd-signature-type" data-tsd-kind="Interface">Lookup</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></div>
+				<div class="tsd-signature tsd-kind-icon">Pattern<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">Word</span><span class="tsd-signature-symbol"> | </span><a href="interfaces/lookup.html" class="tsd-signature-type" data-tsd-kind="Interface">Lookup</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/0ea28c2/src/types.ts#L48">types.ts:48</a></li>
+						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/108b63c/src/types.ts#L51">types.ts:51</a></li>
+					</ul>
+				</aside>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-type-alias">
+				<a name="scopegroupname" class="tsd-anchor"></a>
+				<h3>Scope<wbr>Group<wbr>Name</h3>
+				<div class="tsd-signature tsd-kind-icon">Scope<wbr>Group<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/108b63c/src/types.ts#L4">types.ts:4</a></li>
+					</ul>
+				</aside>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-type-alias">
+				<a name="scopename" class="tsd-anchor"></a>
+				<h3>Scope<wbr>Name</h3>
+				<div class="tsd-signature tsd-kind-icon">Scope<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/108b63c/src/types.ts#L3">types.ts:3</a></li>
 					</ul>
 				</aside>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-type-alias">
 				<a name="suggestedpattern" class="tsd-anchor"></a>
 				<h3>Suggested<wbr>Pattern</h3>
-				<div class="tsd-signature tsd-kind-icon">Suggested<wbr>Pattern<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><a href="modules.html#word" class="tsd-signature-type" data-tsd-kind="Type alias">Word</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></div>
+				<div class="tsd-signature tsd-kind-icon">Suggested<wbr>Pattern<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">Word</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/0ea28c2/src/types.ts#L49">types.ts:49</a></li>
+						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/108b63c/src/types.ts#L52">types.ts:52</a></li>
 					</ul>
 				</aside>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-type-alias">
-				<a name="value" class="tsd-anchor"></a>
-				<h3>Value</h3>
-				<div class="tsd-signature tsd-kind-icon">Value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
+				<a name="term" class="tsd-anchor"></a>
+				<h3>Term</h3>
+				<div class="tsd-signature tsd-kind-icon">Term<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Word</span><span class="tsd-signature-symbol"> | </span><a href="interfaces/lookup.html" class="tsd-signature-type" data-tsd-kind="Interface">Lookup</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/0ea28c2/src/types.ts#L4">types.ts:4</a></li>
-					</ul>
-				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-type-alias">
-				<a name="word" class="tsd-anchor"></a>
-				<h3>Word</h3>
-				<div class="tsd-signature tsd-kind-icon">Word<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/0ea28c2/src/types.ts#L2">types.ts:2</a></li>
+						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/108b63c/src/types.ts#L11">types.ts:11</a></li>
 					</ul>
 				</aside>
 			</section>
