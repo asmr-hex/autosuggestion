@@ -6,5 +6,5 @@
 # for this repository's Github Pages.
 npm test
 cp -r ./examples ./docs
-mv coverage ./docs
+cp -r coverage/lcov-report ./docs/coverage
 git add -A ./docs/

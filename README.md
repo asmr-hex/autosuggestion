@@ -6,15 +6,19 @@
     autosuggestion
 </h1>
 <p align="center">
+    <!-- test badge -->
     <a href="https://github.com/asmr-hex/autosuggestion/actions/workflows/tests.yml" alt="tests">
         <img src="https://github.com/asmr-hex/autosuggestion/actions/workflows/tests.yml/badge.svg"/>
     </a>
-    <a href="https://asmr-hex.github.io/autosuggestion">
+    <!-- coverage badge -->
+    <a href="https://asmr-hex.github.io/autosuggestion/coverage">
         <img src="https://img.shields.io/endpoint?url=https://api.keyvalue.xyz/437c1f94/coverage" alt="test coverage">
     </a>
+    <!-- docs badge -->
     <a href="https://asmr-hex.github.io/autosuggestion" alt="documentation">
         <img src="https://img.shields.io/static/v1?label=typedoc&message=docs&color=informational" />
     </a>
+    <!-- npm version badge -->
     <a href="https://badge.fury.io/js/autosuggestion">
         <img src="https://badge.fury.io/js/autosuggestion.svg" alt="npm version">
     </a>
