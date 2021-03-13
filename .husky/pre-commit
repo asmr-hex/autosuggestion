@@ -4,4 +4,7 @@
 # test/generate updated docs, copy examples into docs dir, stage updated docs dir.
 # note: we are adding the examples dir to the docs dir because it is the root dir
 # for this repository's Github Pages.
-npm test && cp -r ./examples ./docs && git add -A ./docs/
+npm test
+cp -r ./examples ./docs
+mv coverage ./docs
+git add -A ./docs/
