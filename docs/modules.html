@@ -2718,6 +2718,9 @@ img {
 		<li class=" tsd-kind-type-alias">
 			<a href="modules.html#term" class="tsd-kind-icon">Term</a>
 		</li>
+		<li class=" tsd-kind-type-alias">
+			<a href="modules.html#word" class="tsd-kind-icon">Word</a>
+		</li>
 	</ul>
 </nav>
 <div class="container container-main">
@@ -2786,8 +2789,10 @@ img {
 				<h2>Examples</h2>
 			</a>
 			<ul>
-				<li><a href="https://asmr-hex.github.com/autosuggestion/examples/browser/index.html">basic</a></li>
-				<li><a href="https://asmr-hex.github.io/autosuggestion/examples/browser/context-free-grammar-example.html">context-free grammar</a></li>
+				<li><a href="https://asmr-hex.github.com/autosuggestion/examples/browser/basic.html">basic</a></li>
+				<li><a href="https://asmr-hex.github.com/autosuggestion/examples/browser/dynamic.html">dynamic</a></li>
+				<li><a href="https://asmr-hex.github.io/autosuggestion/examples/browser/basic-cfg.html">context-free grammar</a></li>
+				<li><a href="https://asmr-hex.github.io/autosuggestion/examples/browser/dynamic-cfg.html">dynamic context-free grammar</a></li>
 			</ul>
 			<p>list of live example pages
 			brief section descriptions of each feature</p>
@@ -2817,22 +2822,31 @@ img {
 				<li><input checked="" disabled="" type="checkbox"> update github</li>
 				<li><input checked="" disabled="" type="checkbox"> update package (use latest package from unpkg.org in browser examples)</li>
 				<li><input checked="" disabled="" type="checkbox"> host documentation
+					<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
+						<h4>Documentation</h4>
+					</a>
+				</li>
+				<li><input checked="" disabled="" type="checkbox"> Dictionary</li>
+				<li><input checked="" disabled="" type="checkbox"> Scope</li>
+				<li><input disabled="" type="checkbox"> Suggestion</li>
+				<li><input disabled="" type="checkbox"> Node</li>
+				<li><input checked="" disabled="" type="checkbox"> types
 					<a href="#features" id="features" style="color: inherit; text-decoration: none;">
 						<h4>Features</h4>
 					</a>
 				</li>
+				<li><input disabled="" type="checkbox"> make Dictionary API handle multiple input data shapes</li>
 				<li><input disabled="" type="checkbox"> suggestion token annotations (context, etc.)</li>
 				<li><input disabled="" type="checkbox"> configuration (lookup brackets, etc.)
 					<a href="#examples-1" id="examples-1" style="color: inherit; text-decoration: none;">
 						<h4>Examples</h4>
 					</a>
 				</li>
-				<li><input disabled="" type="checkbox"> examples landing page (browser) (or link in docs)</li>
-				<li><input disabled="" type="checkbox"> simple, dynamic dictionary (browser)</li>
-				<li><input disabled="" type="checkbox"> complex, dynamic CFG (browser)</li>
+				<li><input checked="" disabled="" type="checkbox"> examples landing page (browser) (or link in docs)</li>
+				<li><input checked="" disabled="" type="checkbox"> simple, dynamic dictionary (browser)</li>
+				<li><input checked="" disabled="" type="checkbox"> complex, dynamic CFG (browser)</li>
 				<li><input disabled="" type="checkbox"> lookahead configuration (browser)</li>
 				<li><input disabled="" type="checkbox"> large dictionary (browser)</li>
-				<li><input disabled="" type="checkbox"> deeply nested contexts (browser)</li>
 				<li><input disabled="" type="checkbox"> basic (nodejs)</li>
 			</ul>
 		</div>
@@ -2865,6 +2879,7 @@ img {
 							<li class="tsd-kind-type-alias"><a href="modules.html#scopename" class="tsd-kind-icon">Scope<wbr>Name</a></li>
 							<li class="tsd-kind-type-alias"><a href="modules.html#suggestedpattern" class="tsd-kind-icon">Suggested<wbr>Pattern</a></li>
 							<li class="tsd-kind-type-alias"><a href="modules.html#term" class="tsd-kind-icon">Term</a></li>
+							<li class="tsd-kind-type-alias"><a href="modules.html#word" class="tsd-kind-icon">Word</a></li>
 						</ul>
 					</section>
 				</div>
@@ -2875,12 +2890,17 @@ img {
 			<section class="tsd-panel tsd-member tsd-kind-type-alias">
 				<a name="pattern" class="tsd-anchor"></a>
 				<h3>Pattern</h3>
-				<div class="tsd-signature tsd-kind-icon">Pattern<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">Word</span><span class="tsd-signature-symbol"> | </span><a href="interfaces/lookup.html" class="tsd-signature-type" data-tsd-kind="Interface">Lookup</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></div>
+				<div class="tsd-signature tsd-kind-icon">Pattern<span class="tsd-signature-symbol">:</span> <a href="modules.html#term" class="tsd-signature-type" data-tsd-kind="Type alias">Term</a><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/108b63c/src/types.ts#L51">types.ts:51</a></li>
+						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/16dff1f/src/types.ts#L30">types.ts:30</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A sequence of terms which define a suggesion pattern.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-type-alias">
 				<a name="scopegroupname" class="tsd-anchor"></a>
@@ -2888,9 +2908,14 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Scope<wbr>Group<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/108b63c/src/types.ts#L4">types.ts:4</a></li>
+						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/16dff1f/src/types.ts#L11">types.ts:11</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The name of a scope group defined by a <a href="interfaces/lookup.html">lookup</a>.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-type-alias">
 				<a name="scopename" class="tsd-anchor"></a>
@@ -2898,29 +2923,60 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Scope<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/108b63c/src/types.ts#L3">types.ts:3</a></li>
+						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/16dff1f/src/types.ts#L8">types.ts:8</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The name of a <a href="classes/scope.html">scope</a>.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-type-alias">
 				<a name="suggestedpattern" class="tsd-anchor"></a>
 				<h3>Suggested<wbr>Pattern</h3>
-				<div class="tsd-signature tsd-kind-icon">Suggested<wbr>Pattern<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">Word</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></div>
+				<div class="tsd-signature tsd-kind-icon">Suggested<wbr>Pattern<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><a href="modules.html#word" class="tsd-signature-type" data-tsd-kind="Type alias">Word</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/108b63c/src/types.ts#L52">types.ts:52</a></li>
+						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/16dff1f/src/types.ts#L33">types.ts:33</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A suggested pattern.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-type-alias">
 				<a name="term" class="tsd-anchor"></a>
 				<h3>Term</h3>
-				<div class="tsd-signature tsd-kind-icon">Term<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Word</span><span class="tsd-signature-symbol"> | </span><a href="interfaces/lookup.html" class="tsd-signature-type" data-tsd-kind="Interface">Lookup</a></div>
+				<div class="tsd-signature tsd-kind-icon">Term<span class="tsd-signature-symbol">:</span> <a href="modules.html#word" class="tsd-signature-type" data-tsd-kind="Type alias">Word</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/lookup.html" class="tsd-signature-type" data-tsd-kind="Interface">Lookup</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/108b63c/src/types.ts#L11">types.ts:11</a></li>
+						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/16dff1f/src/types.ts#L20">types.ts:20</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A <code>Term</code> is the basic building block of a suggestion pattern. A <code>Term</code>
+						can either be a <a href="modules.html#word">word</a> or a <a href="interfaces/lookup.html">lookup</a>.</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-type-alias">
+				<a name="word" class="tsd-anchor"></a>
+				<h3>Word</h3>
+				<div class="tsd-signature tsd-kind-icon">Word<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/asmr-hex/autosuggestion/blob/16dff1f/src/types.ts#L5">types.ts:5</a></li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A <code>Word</code> is a string.</p>
+					</div>
+				</div>
 			</section>
 		</section>
 		<footer class="with-border-bottom">

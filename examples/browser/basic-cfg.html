@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>CFG | Autosuggestion</title>
+        <title>Basic CFG | Autosuggestion</title>
         <style>
          body {
              margin: 15px;
@@ -138,13 +138,13 @@
              ]
          }
 
-         
+
          for (const [pos, words] of Object.entries(contexts)) {
              // define parts of speech in their own contexts
              dictionary.define(pos, words)
 
-             // append a list of the terms in HTML so we can see what terms have been defined.    
-             document.getElementById(pos).innerHTML = words.map(t => `<div class="term">${t}</div>`).join('\n')   
+             // append a list of the terms in HTML so we can see what terms have been defined.
+             document.getElementById(pos).innerHTML = words.map(t => `<div class="term">${t}</div>`).join('\n')
          }
 
          // define the context-free grammar of a sentence
@@ -160,7 +160,7 @@
          document.getElementById('text-box').addEventListener('keyup', e => {
              // parse text (just split by white space)
              let tokens = e.target.value.split(' ').filter(t => t !== '')
-             
+
              // generate suggestions based on the input text
              let suggestions = []
              for (const suggestion of dictionary.suggest(tokens, ['sentence'])) {

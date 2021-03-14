@@ -2718,10 +2718,21 @@ img {
 		<li class=" tsd-kind-type-alias">
 			<a href="../modules.html#term" class="tsd-kind-icon">Term</a>
 		</li>
+		<li class=" tsd-kind-type-alias">
+			<a href="../modules.html#word" class="tsd-kind-icon">Word</a>
+		</li>
 	</ul>
 </nav>
 <div class="container container-main">
 	<div class="content-wrap">
+		<section class="tsd-panel tsd-comment">
+			<div class="tsd-comment tsd-typography">
+				<div class="lead">
+					<p>A <code>Lookup</code> is a <a href="../modules.html#term">term</a> within a <a href="../modules.html#pattern">suggestion pattern</a> which
+					is an unresolved placeholder.</p>
+				</div>
+			</div>
+		</section>
 		<section class="tsd-panel tsd-hierarchy">
 			<h3>Hierarchy</h3>
 			<ul class="tsd-hierarchy">
@@ -2732,7 +2743,19 @@ img {
 		</section>
 		<section class="tsd-panel tsd-kind-interface">
 			<h3 class="tsd-before-signature">Indexable</h3>
-			<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>index: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><a href="../modules.html#scopegroupname" class="tsd-signature-type" data-tsd-kind="Type alias">ScopeGroupName</a><span class="tsd-signature-symbol"> | </span><a href="../modules.html#scopename" class="tsd-signature-type" data-tsd-kind="Type alias">ScopeName</a><span class="tsd-signature-symbol">[]</span></div>
+			<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>ScopeGroup: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><a href="../modules.html#scopename" class="tsd-signature-type" data-tsd-kind="Type alias">ScopeName</a><span class="tsd-signature-symbol"> | </span><a href="../modules.html#scopename" class="tsd-signature-type" data-tsd-kind="Type alias">ScopeName</a><span class="tsd-signature-symbol">[]</span></div>
+			<div class="tsd-comment tsd-typography">
+				<div class="lead">
+					<p>A Lookup consists of a <a href="../modules.html#scopegroupname">scope group name</a>
+						which indexes into an array of <a href="../modules.html#scopename">scope names</a> or a single <a href="../modules.html#scopename">scope name</a>.
+						When a lookup is resolved/expanded, all the indexed scopes are searched.
+					For example, given the following <code>Lookup</code> definition,</p>
+					<pre><code class="language-javascript"><span style="color: #39ADB5">{</span><span style="color: #E53935"> </span><span style="color: #E2931D">food</span><span style="color: #39ADB5">:</span><span style="color: #E53935"> [</span><span style="color: #39ADB5">&#039;</span><span style="color: #91B859">vegetables</span><span style="color: #39ADB5">&#039;</span><span style="color: #39ADB5">,</span><span style="color: #E53935"> </span><span style="color: #39ADB5">&#039;</span><span style="color: #91B859">fruits</span><span style="color: #39ADB5">&#039;</span><span style="color: #E53935">] </span><span style="color: #39ADB5">}</span><span style="color: #90A4AE">  </span><span style="color: #90A4AE">// assumed the &#039;vegetable&#039; and &#039;fruits&#039; scopes exist.</span>
+</code></pre>
+					<p>when this term is resolved/expanded, it will search over the <code>&#39;vegetables&#39;</code> and
+					<code>&#39;fruits&#39;</code> <a href="../classes/scope.html">scopes</a>.</p>
+				</div>
+			</div>
 		</section>
 		<footer class="with-border-bottom">
 			<div class="container">

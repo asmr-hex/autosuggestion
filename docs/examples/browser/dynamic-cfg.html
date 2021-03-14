@@ -1,0 +1,232 @@
+<html>
+    <head>
+        <title>Dynamic CFG | Autosuggestion</title>
+        <style>
+         body {
+             margin: 15px;
+             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+         }
+         #root {
+             display: flex;
+             height: 100%;
+         }
+         .high-level-container {
+             border-bottom: 1px grey solid;
+             padding-bottom: 2px;
+         }
+         .context-container {
+             margin-bottom: 10px;
+         }
+         #pos-container {
+             display: flex;
+             flex-grow: 1;
+         }
+         #pos-container-heading {
+             text-align: center;
+             writing-mode: vertical-lr;
+             color: #0078bf;
+             font-size: 14pt;
+             font-weight: bold;
+         }
+         #input-container {
+             display: flex;
+             flex-direction: column;
+             width: 50%;
+         }
+         #dictionary-container {
+             display: flex;
+             flex-direction: column;
+             flex-wrap: wrap;
+             width: 50%;
+         }
+         .dictionary-heading {
+             margin: 0px;
+             color: #ff5aac;
+         }
+         .terms {
+             display: flex;
+             flex-direction: column;
+             font-weight: bold;
+         }
+         .term {
+             color: cornflowerblue;
+         }
+         #text-box {
+             border: 0;
+             color: rosybrown;
+             font-weight: bold;
+             font-size: 14pt;
+         }
+         #text-box:focus {
+             outline: none;
+         }
+         #pattern-input {
+             border: 0;
+             color: rosybrown;
+             font-weight: bold;
+             font-size: 12pt;
+             width: 100%;
+         }
+         #pattern-input:focus {
+             outline: none;
+         }
+         #pos-input {
+             border: 0;
+             color: rosybrown;
+             font-weight: bold;
+             font-size: 12pt;
+             width: 100%;
+         }
+         #pos-input:focus {
+             outline: none;
+         }
+         .pos-instance-input {
+             border: 0;
+             color: rosybrown;
+             font-weight: bold;
+             font-size: 12pt;
+         }
+         .pos-instance-input:focus {
+             outline: none;
+         }
+         .pos-heading {
+             color: #00a95c;
+             margin: 0px;
+         }
+         #pos-content-container {
+             margin-left: 10px;
+             display: flex;
+             flex-wrap: wrap;
+         }
+         .pos {
+             width: 33%;
+         }
+         #suggestions {
+             display: flex;
+             flex-direction: column;
+             font-weight: bold;
+         }
+         .suggestion {
+             color: palevioletred;
+         }
+        </style>
+    </head>
+    <body>
+
+        <div id='root'>
+            <div id='input-container'>
+                <input id='text-box' spellcheck='false' placeholder='type a sentence here...'>
+                <div id='suggestions'></div>
+            </div>
+            <div id='dictionary-container'>
+                <div class='high-level-container' style='padding-left: 5px;'>
+                    <div class='context-container'>
+                        <h3 class='dictionary-heading'>Sentence Structures</h3>
+                        <input id='pattern-input' spellcheck='false' placeholder='add a sequence of "parts of speech" and press ENTER...'>
+                        <div id='suggested-pattern'></div>
+                        <div id='patterns' class='terms'></div>
+                    </div>
+                </div>
+                <div style='display:flex;flex-direction:column;flex-grow:1;border-left: 1px solid #0078bf;padding-left: 5px;'>
+                    <div class='context-container' style='margin-top:10px;'>
+                        <input id='pos-input' spellcheck='false' placeholder='add a part of speech (e.g. noun, verb, etc.) and press ENTER...'>
+                        <div id='patterns' class='terms'></div>
+                    </div>
+                    <div id='pos-container'>
+                        <div id='pos-container-heading'>Parts of Speech</div>
+                        <div id='pos-content-container'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- import the autosuggestion library -->
+        <script type='text/javascript' src='https://unpkg.com/autosuggestion'></script>
+
+        <!-- this is where the example Javascript begins -->
+        <script type='text/javascript'>
+         // instantiate new autosuggestion dictionary
+         const dictionary = new autosuggestion.Dictionary(1)
+
+         // define scope
+         dictionary.define('sentence')
+         dictionary.define('parts-of-speech')
+         dictionary.add('parts-of-speech', ['sentence']) // make recursive possibly...
+         let patterns = []
+         let partsofspeech = { 'sentence': [] }
+         document.getElementById('pattern-input').addEventListener('keyup', e => {
+             if (e.key === 'Enter') {
+                 const pattern = e.target.value.split(' ').filter(t => t !== '')
+
+                 e.target.value = ''
+
+                 let lookups = []
+                 // create lookup sequence and
+                 // ensure all specified parts of speech exist
+                 for (const pos of pattern) {
+                     if (!(pos in partsofspeech)) return
+                     lookups.push({[pos]: [pos]})
+                 }
+                 
+                 // add words to dictionary
+                 dictionary.add('sentence', [lookups])
+                 patterns.push(pattern)
+
+                 // append a list of the terms in HTML so we can see what terms have been defined.
+                 document.getElementById('patterns').innerHTML = patterns.map(t => `<div class="term">${t.join(' ')}</div>`).join('\n')
+             } else {
+                 const pattern = e.target.value.split(' ').filter(t => t !== '')
+
+                 let suggestions = []
+                 if (pattern.length !== 0) {
+                     suggestions = dictionary.suggest([pattern[pattern.length-1]], ['parts-of-speech'])
+                     document.getElementById('suggested-pattern').innerHTML = suggestions.map(s => `<div style="font-weight:bold;color:#67B346">${s.simplified}</div>`).join('\n')
+                 } else {
+                     document.getElementById('suggested-pattern').innerHTML = ''
+                 }
+             }
+         })
+
+         document.getElementById('pos-input').addEventListener('keyup', e => {
+             if (e.key !== 'Enter' || e.target.value === '') return
+             const pos = e.target.value
+             e.target.value = ''
+             dictionary.define(pos)
+             partsofspeech[pos] = []
+             dictionary.add('parts-of-speech', [pos])
+             const posEl = document.createElement("div")
+             posEl.innerHTML = `<h3 class="pos-heading">${pos}</h3><input id="pos-${pos}-input" class="pos-instance-input" spellcheck="false" placeholder="add ${pos}..."><div id="pos-${pos}-terms" class='pos-instance-terms'></div>`
+             posEl.className = 'pos'
+             posEl.id = `pos-${pos}`
+             document.getElementById('pos-content-container').appendChild(posEl)
+             document.getElementById(`pos-${pos}-input`).addEventListener('keyup', ev => {
+                 if (ev.key !== 'Enter' || ev.target.value === '') return
+                 const i = ev.target.value
+                 partsofspeech[pos].push(i)
+                 dictionary.add(pos, [i])
+                 ev.target.value = ''
+                 document.getElementById(`pos-${pos}-terms`).innerHTML = partsofspeech[pos].map(t => `<div class="term">${t}</div>`).join('\n')
+             })
+         })
+         
+         // register an event listener for every keystroke in the input element
+         document.getElementById('text-box').addEventListener('keyup', e => {
+             // parse text (just split by white space)
+             let tokens = e.target.value.split(' ').filter(t => t !== '')
+             
+             // generate suggestions based on the input text
+             let suggestions = []
+             for (const suggestion of dictionary.suggest(tokens, ['sentence'])) {
+                 suggestions.push(`<div class="suggestion">${suggestion.simplified.join(' ')}</div>`)
+             }
+
+             console.log(suggestions)
+             console.log(dictionary)
+             
+             // set all valid suggestions for the person's input text
+             document.getElementById('suggestions').innerHTML = suggestions.join('\n')
+         })
+        </script>
+    </body>
+</html>
