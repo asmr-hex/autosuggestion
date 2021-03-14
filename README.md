@@ -59,8 +59,10 @@ const dictionary = new Dictionary()
 ```
 
 ## Examples
-* [basic](https://asmr-hex.github.com/autosuggestion/examples/browser/index.html)
-* [context-free grammar](https://asmr-hex.github.io/autosuggestion/examples/browser/context-free-grammar-example.html)
+* [basic](https://asmr-hex.github.com/autosuggestion/examples/browser/basic.html)
+* [dynamic](https://asmr-hex.github.com/autosuggestion/examples/browser/dynamic.html)
+* [context-free grammar](https://asmr-hex.github.io/autosuggestion/examples/browser/basic-cfg.html)
+* [dynamic context-free grammar](https://asmr-hex.github.io/autosuggestion/examples/browser/dynamic-cfg.html)
 
 list of live example pages
 brief section descriptions of each feature
@@ -84,14 +86,20 @@ eventually, consider using [semantic-release](https://github.com/semantic-releas
 - [x] update github
 - [x] update package (use latest package from unpkg.org in browser examples)
 - [x] host documentation
+#### Documentation
+- [x] Dictionary
+- [x] Scope
+- [ ] Suggestion
+- [ ] Node
+- [x] types
 #### Features
+- [ ] make Dictionary API handle multiple input data shapes
 - [ ] suggestion token annotations (context, etc.)
 - [ ] configuration (lookup brackets, etc.)
 #### Examples
-- [ ] examples landing page (browser) (or link in docs)
-- [ ] simple, dynamic dictionary (browser)
-- [ ] complex, dynamic CFG (browser)
+- [x] examples landing page (browser) (or link in docs)
+- [x] simple, dynamic dictionary (browser)
+- [x] complex, dynamic CFG (browser)
 - [ ] lookahead configuration (browser)
 - [ ] large dictionary (browser)
-- [ ] deeply nested contexts (browser)
 - [ ] basic (nodejs)

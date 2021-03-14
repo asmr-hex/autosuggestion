@@ -6,6 +6,7 @@ export type {
     ScopeName,
     ScopeGroupName,
     NextNodes,
+    Word,
 } from './types'
 export { Dictionary } from './dictionary'
 export { Scope } from './scope'
